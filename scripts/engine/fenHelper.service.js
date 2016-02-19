@@ -11,8 +11,44 @@
         };
 
         var parsePieces = function(position, piecesString) {
-            // TODO
-            return $q.reject('not implemented');
+            var ranks = piecesString.split('/');
+            if (ranks.length != 8) {
+                return $q.reject(errorStrings.FEN_RANKS_INCORRECT);
+            }
+
+            var validPieces = 'pnbrqkPNBRQK';
+            var pieces = "";
+
+            var parseRank = function(rank) {
+                var rankString = "";
+                for(var i = 0; i < rank.length; i++) {
+                    if (validPieces.indexOf(rank[i]) != -1) {
+                        rankString += rank[i];
+                    } else {
+                        var skip = parseInt(rank[i]);
+                        if (isNaN(skip) || skip < 1) {
+                            return false;
+                        }
+                        for (var j = 0; j < skip; j++) {
+                            rankString += '-';
+                        }
+                    }
+                }
+                if (rankString.length != 8) {
+                    return false;
+                }
+                pieces += rankString;
+                return true;
+            };
+
+            for(var i = 0; i < ranks.length; i++) {
+                if (!parseRank(ranks[i])) {
+                    return $q.reject(errorStrings.FEN_PIECES_INCORRECT)
+                }
+            }
+
+            position.pieces = pieces;
+            return $q.when();
         };
 
         var parseActive = function(position, activeString) {
@@ -99,7 +135,7 @@
                 var position = {};
                 var promises = [];
 
-                //promises.push(parsePieces(position, fenArray[0]));
+                promises.push(parsePieces(position, fenArray[0]));
                 promises.push(parseActive(position, fenArray[1]));
                 promises.push(parseCastling(position, fenArray[2]));
                 promises.push(parsePassant(position, fenArray[3]));
