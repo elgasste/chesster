@@ -16,8 +16,13 @@
         };
 
         var parseActive = function(position, activeString) {
-            // TODO
-            return $q.reject('not implemented');
+            var activePiece = activeString.toLowerCase();
+            if (activePiece == 'w' || activePiece == 'b') {
+                position.active = activePiece;
+                return $q.when();
+            } else {
+                return $q.reject(errorStrings.FEN_ACTIVE_INCORRECT);
+            }
         };
 
         var parseCastling = function(position, castlingString) {
