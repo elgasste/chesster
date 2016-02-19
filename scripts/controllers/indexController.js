@@ -6,8 +6,11 @@
 
         $scope.statusMessage = 'Chesster!';
 
-        var position = fenHelper.getPositionFromFenString(constants.STARTING_POSITION_FEN);
-        console.log(position);
+        fenHelper.getPositionFromFenString(constants.STARTING_POSITION_FEN).then(function(position) {
+            console.log(position);
+        }).catch(function(error) {
+            console.error(error);
+        });
 
     }]);
 
