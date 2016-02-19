@@ -31,8 +31,28 @@
         };
 
         var parsePassant = function(position, passantString) {
-            // TODO
-            return $q.reject('not implemented');
+            if (passantString == '-') {
+                position.passant = '-';
+                return $q.when();
+            }
+
+            if (passantString.length != 2) {
+                return $q.reject(errorStrings.FEN_PASSANT_INCORRECT);
+            }
+
+            var file = passantString[0].toLowerCase();
+            var charCode = file.charCodeAt(0);
+            if (charCode < 97 || charCode > 104) {
+                return $q.reject(errorStrings.FEN_PASSANT_INCORRECT);
+            }
+
+            var rank = parseInt(passantString[1]);
+            if (rank != 3 && rank != 6) {
+                return $q.reject(errorStrings.FEN_PASSANT_INCORRECT);
+            }
+
+            position.passant = file + rank;
+            return $q.when();
         };
 
         var parseHalfmove = function(position, halfmoveString) {
@@ -63,7 +83,7 @@
                 //promises.push(parsePieces(position, fenArray[0]));
                 promises.push(parseActive(position, fenArray[1]));
                 //promises.push(parseCastling(position, fenArray[2]));
-                //promises.push(parsePassant(position, fenArray[3]));
+                promises.push(parsePassant(position, fenArray[3]));
                 promises.push(parseHalfmove(position, fenArray[4]));
                 promises.push(parseFullmove(position, fenArray[5]));
 
