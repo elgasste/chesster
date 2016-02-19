@@ -36,8 +36,13 @@
         };
 
         var parseHalfmove = function(position, halfmoveString) {
-            // TODO
-            return $q.reject('not implemented');
+            var halfmove = parseInt(halfmoveString);
+            if (isNaN(halfmove) || halfmove < 0) {
+                return $q.reject(errorStrings.FEN_HALFMOVE_INCORRECT);
+            } else {
+                position.halfmove = halfmove;
+                return $q.when();
+            }
         };
 
         var parseFullmove = function(position, fullmoveString) {
@@ -50,12 +55,12 @@
                 var position = {};
                 var promises = [];
 
-                promises.push(parsePieces(position, fenArray[0]));
+                //promises.push(parsePieces(position, fenArray[0]));
                 promises.push(parseActive(position, fenArray[1]));
-                promises.push(parseCastling(position, fenArray[2]));
-                promises.push(parsePassant(position, fenArray[3]));
+                //promises.push(parseCastling(position, fenArray[2]));
+                //promises.push(parsePassant(position, fenArray[3]));
                 promises.push(parseHalfmove(position, fenArray[4]));
-                promises.push(parseFullmove(position, fenArray[5]));
+                //promises.push(parseFullmove(position, fenArray[5]));
 
                 return $q.all(promises).then(function() {
                     return position;
