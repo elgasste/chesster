@@ -1,19 +1,19 @@
 'use strict';
 (function(angular) {
 
-    angular.module('chesster.engine').factory('fenHelper', ['$q', 'errorStrings', function ($q, errorStrings) {
+    angular.module('chesster.engine').factory('fenHelper', ['$q', 'constants', function ($q, constants) {
 
         var parseFenArray = function(fenString) {
             var fenSections = fenString.trim().split(' ');
             if (fenSections.length != 6)
-                return $q.reject(errorStrings.FEN_SECTIONS_INCORRECT);
+                return $q.reject(constants.fenErrors.FEN_SECTIONS_INCORRECT);
             return $q.when(fenSections);
         };
 
         var parsePieces = function(position, piecesString) {
             var ranks = piecesString.split('/');
             if (ranks.length != 8) {
-                return $q.reject(errorStrings.FEN_RANKS_INCORRECT);
+                return $q.reject(constants.fenErrors.FEN_RANKS_INCORRECT);
             }
 
             var validPieces = 'pnbrqkPNBRQK';
@@ -43,7 +43,7 @@
 
             for(var i = 0; i < ranks.length; i++) {
                 if (!parseRank(ranks[i])) {
-                    return $q.reject(errorStrings.FEN_PIECES_INCORRECT)
+                    return $q.reject(constants.fenErrors.FEN_PIECES_INCORRECT)
                 }
             }
 
@@ -57,7 +57,7 @@
                 position.active = activePiece;
                 return $q.when();
             } else {
-                return $q.reject(errorStrings.FEN_ACTIVE_INCORRECT);
+                return $q.reject(constants.fenErrors.FEN_ACTIVE_INCORRECT);
             }
         };
 
@@ -78,7 +78,7 @@
             }
 
             if (castlingString.length > 0) {
-                return $q.reject(errorStrings.FEN_CASTLING_INCORRECT);
+                return $q.reject(constants.fenErrors.FEN_CASTLING_INCORRECT);
             }
 
             position.castling = castling;
@@ -92,18 +92,18 @@
             }
 
             if (passantString.length != 2) {
-                return $q.reject(errorStrings.FEN_PASSANT_INCORRECT);
+                return $q.reject(constants.fenErrors.FEN_PASSANT_INCORRECT);
             }
 
             var file = passantString[0].toLowerCase();
             var charCode = file.charCodeAt(0);
             if (charCode < 97 || charCode > 104) {
-                return $q.reject(errorStrings.FEN_PASSANT_INCORRECT);
+                return $q.reject(constants.fenErrors.FEN_PASSANT_INCORRECT);
             }
 
             var rank = parseInt(passantString[1]);
             if (rank != 3 && rank != 6) {
-                return $q.reject(errorStrings.FEN_PASSANT_INCORRECT);
+                return $q.reject(constants.fenErrors.FEN_PASSANT_INCORRECT);
             }
 
             position.passant = file + rank;
@@ -113,7 +113,7 @@
         var parseHalfmove = function(position, halfmoveString) {
             var halfmove = parseInt(halfmoveString);
             if (isNaN(halfmove) || halfmove < 0) {
-                return $q.reject(errorStrings.FEN_HALFMOVE_INCORRECT);
+                return $q.reject(constants.fenErrors.FEN_HALFMOVE_INCORRECT);
             } else {
                 position.halfmove = halfmove;
                 return $q.when();
@@ -123,7 +123,7 @@
         var parseFullmove = function(position, fullmoveString) {
             var fullmove = parseInt(fullmoveString);
             if (isNaN(fullmove) || fullmove < 1) {
-                return $q.reject(errorStrings.FEN_FULLMOVE_INCORRECT);
+                return $q.reject(constants.fenErrors.FEN_FULLMOVE_INCORRECT);
             } else {
                 position.fullmove = fullmove;
                 return $q.when();
