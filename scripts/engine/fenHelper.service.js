@@ -1,11 +1,13 @@
 'use strict';
 (function(angular) {
 
-    angular.module('chesster.engine').factory('fenHelper', ['$q', function ($q) {
+    angular.module('chesster.engine').factory('fenHelper', ['$q', 'errorStrings', function ($q, errorStrings) {
 
         var parseFenArray = function(fenString) {
-            // TODO
-            return $q.reject('not implemented');
+            var fenSections = fenString.trim().split(' ');
+            if (fenSections.length != 6)
+                return $q.reject(errorStrings.FEN_SECTIONS_INCORRECT);
+            return $q.when(fenSections);
         };
 
         var parsePieces = function(position, piecesString) {
