@@ -148,17 +148,43 @@
             })
         };
 
+        var encodePieces = function(pieces) {
+            var piecesString = "";
+            var skipCounter = 0;
+
+            var encodePiece = function(piece) {
+                if (skipCounter > 0) {
+                    piecesString += skipCounter.toString();
+                    skipCounter = 0;
+                }
+                piecesString += piece;
+            };
+
+            for(var i = 0; i < pieces.length; i++) {
+                if (pieces[i] == '-') {
+                    skipCounter++;
+                } else {
+                    encodePiece(pieces[i]);
+                }
+                if ((i+1) % 8 == 0) {
+                    encodePiece('/');
+                }
+            }
+
+            return $q.when(piecesString);
+        };
+
         var getFenStringFromPosition = function(position) {
-            var fenString = "";
+            return encodePieces(position.pieces).then(function(piecesString) {
+                var fenString = piecesString;
+                fenString += ' ' + position.active;
+                fenString += ' ' + position.castling;
+                fenString += ' ' + position.passant;
+                fenString += ' ' + position.halfmove;
+                fenString += ' ' + position.fullmove;
 
-            // TODO: encode pieces
-            fenString += ' ' + position.active;
-            fenString += ' ' + position.castling;
-            fenString += ' ' + position.passant;
-            fenString += ' ' + position.halfmove;
-            fenString += ' ' + position.fullmove;
-
-            return $q.when(fenString);
+                return $q.when(fenString);
+            });
         };
 
         return {
