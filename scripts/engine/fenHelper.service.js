@@ -26,8 +26,27 @@
         };
 
         var parseCastling = function(position, castlingString) {
-            // TODO
-            return $q.reject('not implemented');
+            if (castlingString == '-') {
+                position.castling = '-';
+                return $q.when();
+            }
+
+            var piecePool = ['K', 'Q', 'k', 'q'];
+            var castling = "";
+            for (var i = 0; i < piecePool.length; i++) {
+                var idx = castlingString.indexOf(piecePool[i]);
+                if (idx != -1) {
+                    castling += piecePool[i];
+                    castlingString = castlingString.replace(piecePool[i], '');
+                }
+            }
+
+            if (castlingString.length > 0) {
+                return $q.reject(errorStrings.FEN_CASTLING_INCORRECT);
+            }
+
+            position.castling = castling;
+            return $q.when();
         };
 
         var parsePassant = function(position, passantString) {
@@ -82,7 +101,7 @@
 
                 //promises.push(parsePieces(position, fenArray[0]));
                 promises.push(parseActive(position, fenArray[1]));
-                //promises.push(parseCastling(position, fenArray[2]));
+                promises.push(parseCastling(position, fenArray[2]));
                 promises.push(parsePassant(position, fenArray[3]));
                 promises.push(parseHalfmove(position, fenArray[4]));
                 promises.push(parseFullmove(position, fenArray[5]));
