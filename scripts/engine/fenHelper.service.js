@@ -148,8 +148,22 @@
             })
         };
 
+        var getFenStringFromPosition = function(position) {
+            var fenString = "";
+
+            // TODO: encode pieces
+            fenString += ' ' + position.active;
+            fenString += ' ' + position.castling;
+            fenString += ' ' + position.passant;
+            fenString += ' ' + position.halfmove;
+            fenString += ' ' + position.fullmove;
+
+            return $q.when(fenString);
+        };
+
         return {
-            getPositionFromFenString: getPositionFromFenString
+            getPositionFromFenString: getPositionFromFenString,
+            getFenStringFromPosition: getFenStringFromPosition
         };
 
     }]);
