@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html ng-app="chesster.app">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <meta charset="UTF-8">
+    <title>Chesster!</title>
+
+    <link href="style/main.css" rel="stylesheet" type="text/css">
+</head>
+<body ng-controller="indexController">
+<div class="page-container">
+    <div class="message-container">
+        <span>{{statusMessage}}</span>
+    </div>
+</div>
+
+<script src="scripts/vendor/angular.min.js"></script>
+
+<script src="scripts/app/module.js"></script>
+
+<script src="scripts/common/module.js"></script>
+<script src="scripts/common/constants.js"></script>
+
+<script src="scripts/engine/module.js"></script>
+
+<script src="scripts/controllers/module.js"></script>
+<script src="scripts/controllers/indexController.js"></script>
+
+</body>
+</html>
