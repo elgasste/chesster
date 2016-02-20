@@ -5,16 +5,17 @@
 
         var parseFenArray = function(fenString) {
             var fenSections = fenString.trim().split(' ');
-            if (fenSections.length != 6)
+            if (fenSections.length != 6) {
                 console.error('fenHelper.service: ' + constants.fenErrors.FEN_SECTIONS_INCORRECT);
                 return $q.reject();
+            }
             return $q.when(fenSections);
         };
 
         var parsePieces = function(position, piecesString) {
             var ranks = piecesString.split('/');
             if (ranks.length != 8) {
-                console.error('fenHelper.service: ' + console.error('fenHelper.service: ' + ););
+                console.error('fenHelper.service: ' + constants.fenErrors.FEN_RANKS_INCORRECT);
                 return $q.reject();
             }
 
