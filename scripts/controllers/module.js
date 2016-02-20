@@ -2,6 +2,6 @@
 
 (function(angular) {
 
-    angular.module('chesster.controllers', ['chesster.common', 'chesster.engine']);
+    angular.module('chesster.controllers', ['chesster.common', 'chesster.engine', 'chesster.view']);
 
 })(angular);

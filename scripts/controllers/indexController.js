@@ -10,9 +10,8 @@
             $scope.session = session;
             $scope.session.loadFromFen(constants.STARTING_POSITION_FEN).then(function() {
                 $scope.statusMessage = 'Session loaded';
-                console.log($scope.session.getCurrentPosition());
             });
-        })
+        });
 
     }]);
 
