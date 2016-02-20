@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('chesster.view').directive('chessBoard', ['constants', function(constants) {
+angular.module('chesster.view').directive('chessBoard', ['constants', 'sessionMessenger', function(constants, sessionMessenger) {
 
     function link(scope) {
         scope.rows = [];
@@ -34,6 +34,17 @@ angular.module('chesster.view').directive('chessBoard', ['constants', function(c
                 }
             }
         };
+
+        var sessionUpdateHandler = function(messageId) {
+            var codes = constants.messageCodes;
+            switch (messageId) {
+                case codes.SESSION_POSITION_CHANGED:
+                    updatePieces(scope.session.getCurrentPosition().pieces);
+                    break;
+            }
+        };
+
+        sessionMessenger.subscribe(scope.session.getSessionId(), sessionUpdateHandler);
 
         var position = scope.session.getCurrentPosition();
         updatePieces(position.pieces);

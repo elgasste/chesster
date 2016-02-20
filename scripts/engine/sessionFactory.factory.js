@@ -2,7 +2,7 @@
 
 (function(angular) {
 
-    angular.module('chesster.engine').factory('sessionFactory', ['$q', 'sessionMessenger', 'positionHelper', 'fenHelper', function ($q, sessionMessenger, positionHelper, fenHelper) {
+    angular.module('chesster.engine').factory('sessionFactory', ['$q', 'constants', 'sessionMessenger', 'positionHelper', 'fenHelper', function ($q, constants, sessionMessenger, positionHelper, fenHelper) {
 
         function Session () {
             var sessionId = sessionMessenger.getNewSessionId();
@@ -19,6 +19,7 @@
             var loadFromFen = function(fenString) {
                 return fenHelper.getPositionFromFenString(fenString).then(function(position) {
                     currentPosition = position;
+                    sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_POSITION_CHANGED);
                     return $q.when();
                 });
             };

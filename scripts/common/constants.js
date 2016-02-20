@@ -18,6 +18,10 @@
 
         viewErrors: {
             PIECES_STRING_INCORRECT: 'The position contains an invalid pieces string'
+        },
+
+        messageCodes: {
+            SESSION_POSITION_CHANGED: 100
         }
     };
 
