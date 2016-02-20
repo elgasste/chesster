@@ -19,7 +19,7 @@
 
         var broadcast = function(sessionId, messageId) {
             for (var i = 0; i < subscribers[sessionId].length; i++) {
-                subscribers[sessionId][i]();
+                subscribers[sessionId][i](messageId);
             }
         };
 
