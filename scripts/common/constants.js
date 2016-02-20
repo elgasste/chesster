@@ -14,6 +14,10 @@
             FEN_PASSANT_INCORRECT: 'The FEN string has a bad value for en passant square',
             FEN_HALFMOVE_INCORRECT: 'Then FEN string has a bad value for halfmove clock',
             FEN_FULLMOVE_INCORRECT: 'Then FEN string has a bad value for fullmove clock'
+        },
+
+        viewErrors: {
+            PIECES_STRING_INCORRECT: 'The position contains an invalid pieces string'
         }
     };
 

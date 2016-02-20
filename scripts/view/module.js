@@ -2,6 +2,6 @@
 
 (function(angular) {
 
-    angular.module('chesster.view', []);
+    angular.module('chesster.view', ['chesster.common']);
 
 })(angular);
