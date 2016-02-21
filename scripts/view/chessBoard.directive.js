@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('chesster.view').directive('chessBoard', ['constants', 'sessionMessenger', function(constants, sessionMessenger) {
+angular.module('chesster.view').directive('chessBoard', ['constants', 'sessionMessenger', 'actionHandler', function(constants, sessionMessenger, actionHandler) {
 
     function link(scope) {
         scope.rows = [];
@@ -37,7 +37,7 @@ angular.module('chesster.view').directive('chessBoard', ['constants', 'sessionMe
         };
 
         scope.squareClicked = function(index) {
-            console.log('clicked on square ' + index);
+            actionHandler.squareClicked(scope.session.getSessionId(), index);
         };
 
         var sessionUpdateHandler = function(messageId) {
