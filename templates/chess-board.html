@@ -1,6 +1,6 @@
 <div class="chess-board-container">
     <div class="chess-board-row" ng-repeat="row in rows">
-        <div class="chess-board-square" ng-class="{'chess-board-black-square': square.color == 'b'}" ng-repeat="square in row.squares">
+        <div class="chess-board-square" ng-class="{'chess-board-black-square': square.color == 'b'}" ng-repeat="square in row.squares" ng-click="squareClicked(square.index)">
             <img ng-src="images/{{square.piece}}.png" />
         </div>
     </div>

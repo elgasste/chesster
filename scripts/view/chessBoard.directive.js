@@ -12,6 +12,7 @@ angular.module('chesster.view').directive('chessBoard', ['constants', 'sessionMe
                 scope.rows[i].squares.push({});
                 scope.rows[i].squares[j].color = colors[j % 2 + alternator];
                 scope.rows[i].squares[j].piece = 'dash';
+                scope.rows[i].squares[j].index = j + (i * 8);
             }
             alternator = alternator == 0 ? 1 : 0;
         }
@@ -33,6 +34,10 @@ angular.module('chesster.view').directive('chessBoard', ['constants', 'sessionMe
                     }
                 }
             }
+        };
+
+        scope.squareClicked = function(index) {
+            console.log('clicked on square ' + index);
         };
 
         var sessionUpdateHandler = function(messageId) {
