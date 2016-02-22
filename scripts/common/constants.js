@@ -21,7 +21,8 @@
         },
 
         messageCodes: {
-            SESSION_POSITION_CHANGED: 100
+            SESSION_POSITION_CHANGED: 100,
+            SESSION_PIECE_CAPTURED: 101
         }
     };
 

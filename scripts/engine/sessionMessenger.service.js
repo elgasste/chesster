@@ -14,12 +14,12 @@
 
         // TODO: unsubscribe?
 
-        var broadcast = function(sessionId, messageId) {
+        var broadcast = function(sessionId, messageId, data) {
             if (!subscribers[sessionId]) {
                 return;
             }
             for (var i = 0; i < subscribers[sessionId].length; i++) {
-                subscribers[sessionId][i](messageId);
+                subscribers[sessionId][i](messageId, data);
             }
         };
 
