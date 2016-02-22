@@ -31,10 +31,22 @@
                 });
             };
 
+            var activateSquare = function(square) {
+                // TODO
+                var possibleMoves = [];
+                return $q.when(possibleMoves);
+            };
+
+            var movePiece = function(fromSquare, toSquare) {
+                // TODO
+            };
+
             return {
                 getSessionId: getSessionId,
                 getCurrentPosition: getCurrentPosition,
-                loadFromFen: loadFromFen
+                loadFromFen: loadFromFen,
+                activateSquare: activateSquare,
+                movePiece: movePiece
             };
         }
 
@@ -45,8 +57,13 @@
             return $q.when(session);
         };
 
+        var getSession = function(sessionId) {
+            return $q.when(sessions[sessionId]);
+        };
+
         return {
-            createNewSession: createNewSession
+            createNewSession: createNewSession,
+            getSession: getSession
         };
 
     }]);
