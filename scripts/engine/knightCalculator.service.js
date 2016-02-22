@@ -41,12 +41,10 @@
             position = pos;
             possibleMoves = [];
             var piece = position.pieces[fromSquare];
-            if (piece == 'n') {
+            if (piece.toLowerCase() == piece) {
                 return getMovesForColor(fromSquare, 'b');
-            } else if (piece == 'N') {
-                return getMovesForColor(fromSquare, 'w');
             } else {
-                return $q.when([]);
+                return getMovesForColor(fromSquare, 'w');
             }
         };
 

@@ -65,17 +65,10 @@
             return $q.when(possibleMoves);
         };
 
-        var getPossibleMovesFromSquare = function(pos, fromSquare) {
+        var getPossibleMovesFromSquare = function(pos, fromSquare, color) {
             position = pos;
             possibleMoves = [];
-            var piece = position.pieces[fromSquare];
-            if (piece == 'b') {
-                return getMovesForColor(fromSquare, 'b');
-            } else if (piece == 'B') {
-                return getMovesForColor(fromSquare, 'w');
-            } else {
-                return $q.when([]);
-            }
+            return getMovesForColor(fromSquare, color);
         };
 
         return {

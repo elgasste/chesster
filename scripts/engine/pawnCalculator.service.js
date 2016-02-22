@@ -91,15 +91,12 @@
             return $q.when(possibleMoves);
         };
 
-        var getPossibleMovesFromSquare = function(pos, fromSquare) {
+        var getPossibleMovesFromSquare = function(pos, fromSquare, color) {
             position = pos;
-            var piece = position.pieces[fromSquare];
-            if (piece == 'p') {
+            if (color == 'b') {
                 return getBlackMoves(fromSquare);
-            } else if (piece == 'P') {
-                return getWhiteMoves(fromSquare);
             } else {
-                return $q.when([]);
+                return getWhiteMoves(fromSquare);
             }
         };
 
