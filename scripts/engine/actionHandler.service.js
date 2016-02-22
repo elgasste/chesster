@@ -3,8 +3,14 @@
 
     angular.module('chesster.engine').factory('actionHandler', [function () {
 
+        var pendingMoves = {};
+
         var squareClicked = function(sessionId, index) {
-            console.log('session ' + sessionId + ' action: clicked on square ' + index);
+            if (pendingMoves[sessionId]) {
+                delete pendingMoves[sessionId];
+            } else {
+                pendingMoves[sessionId] = index;
+            }
         };
 
         return {

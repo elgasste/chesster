@@ -4,8 +4,15 @@
 
     angular.module('chesster.engine').factory('sessionFactory', ['$q', 'constants', 'sessionMessenger', 'positionHelper', 'fenHelper', function ($q, constants, sessionMessenger, positionHelper, fenHelper) {
 
-        function Session () {
-            var sessionId = sessionMessenger.getNewSessionId();
+        var sessions = [];
+        var sessionCounter = 0;
+
+        var getNewSessionId = function() {
+            return sessionCounter++;
+        };
+
+        function Session (id) {
+            var sessionId = id;
             var currentPosition = {};
 
             var getSessionId = function() {
@@ -31,12 +38,15 @@
             };
         }
 
-        var getNewSession = function() {
-            return $q.when(new Session());
+        var createNewSession = function() {
+            var newId = getNewSessionId();
+            var session = new Session(newId);
+            sessions.push(session);
+            return $q.when(session);
         };
 
         return {
-            getNewSession: getNewSession
+            createNewSession: createNewSession
         };
 
     }]);
