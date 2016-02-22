@@ -22,7 +22,8 @@
 
         messageCodes: {
             SESSION_POSITION_CHANGED: 100,
-            SESSION_PIECE_CAPTURED: 101
+            SESSION_SQUARE_ACTIVATED: 101,
+            SESSION_PIECE_CAPTURED: 102
         }
     };
 

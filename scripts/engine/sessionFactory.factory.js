@@ -32,8 +32,11 @@
             };
 
             var activateSquare = function(square) {
-                // TODO
                 var possibleMoves = [];
+                // TODO: actually build a list of possible moves
+                if (possibleMoves.length > 0) {
+                    sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_SQUARE_ACTIVATED, {square: square, possibleMoves: possibleMoves});
+                }
                 return $q.when(possibleMoves);
             };
 
