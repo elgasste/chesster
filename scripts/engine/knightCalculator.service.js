@@ -6,39 +6,34 @@
         var position = {};
         var possibleMoves = [];
 
-        var addBlackMoveIfPossible = function(targetSquare) {
+        var addMoveIfPossible = function(targetSquare, color) {
             var obstruction = position.pieces[targetSquare];
-            if (obstruction == '-' || obstruction.toUpperCase() == obstruction) {
+            if (obstruction == '-' || (color == 'b' && obstruction.toUpperCase() == obstruction) || (color == 'w' && obstruction.toLowerCase() == obstruction)) {
                 possibleMoves.push(targetSquare);
             }
         };
 
-        var getBlackMoves = function(fromSquare) {
+        var getMovesForColor = function(fromSquare, color) {
             var fromRank = indexHelper.getRankFromIndex(fromSquare);
             var fromFile = indexHelper.getFileFromIndex(fromSquare);
 
             if (fromRank < 8) {
-                if (fromFile > 1) addBlackMoveIfPossible(fromSquare - 10);
-                if (fromFile < 7) addBlackMoveIfPossible(fromSquare - 6);
+                if (fromFile > 1) addMoveIfPossible(fromSquare - 10, color);
+                if (fromFile < 7) addMoveIfPossible(fromSquare - 6, color);
             }
             if (fromRank < 7) {
-                if (fromFile > 1) addBlackMoveIfPossible(fromSquare - 17);
-                if (fromFile < 8) addBlackMoveIfPossible(fromSquare - 15);
+                if (fromFile > 1) addMoveIfPossible(fromSquare - 17, color);
+                if (fromFile < 8) addMoveIfPossible(fromSquare - 15, color);
             }
             if (fromRank > 2) {
-                if (fromFile > 1) addBlackMoveIfPossible(fromSquare + 15);
-                if (fromFile < 8) addBlackMoveIfPossible(fromSquare + 17);
+                if (fromFile > 1) addMoveIfPossible(fromSquare + 15, color);
+                if (fromFile < 8) addMoveIfPossible(fromSquare + 17, color);
             }
             if (fromRank > 1) {
-                if (fromFile > 1) addBlackMoveIfPossible(fromSquare + 6);
-                if (fromFile < 7) addBlackMoveIfPossible(fromSquare + 10);
+                if (fromFile > 1) addMoveIfPossible(fromSquare + 6, color);
+                if (fromFile < 7) addMoveIfPossible(fromSquare + 10, color);
             }
 
-            return $q.when(possibleMoves);
-        };
-
-        var getWhiteMoves = function(fromSquare) {
-            // TODO
             return $q.when(possibleMoves);
         };
 
@@ -47,9 +42,9 @@
             possibleMoves = [];
             var piece = position.pieces[fromSquare];
             if (piece == 'n') {
-                return getBlackMoves(fromSquare);
+                return getMovesForColor(fromSquare, 'b');
             } else if (piece == 'N') {
-                return getWhiteMoves(fromSquare);
+                return getMovesForColor(fromSquare, 'w');
             } else {
                 return $q.when([]);
             }
