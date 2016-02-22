@@ -1,7 +1,7 @@
 'use strict';
 (function(angular) {
 
-    angular.module('chesster.engine').factory('pawnCalculator', ['$q', function ($q) {
+    angular.module('chesster.engine').factory('pawnCalculator', ['$q', 'algebraicHelper', function ($q, algebraicHelper) {
 
         var position = {};
 
@@ -40,7 +40,13 @@
                 }
             }
 
-            // TODO: en passant
+            // en passant
+            if (position.passant != '-' && fromSquare > 31 && fromSquare < 40) {
+                var passantSquare = algebraicHelper.getSquareIndexFromAlgebraic(position.passant);
+                if (passantSquare == fromSquare + 7 || passantSquare == fromSquare + 9) {
+                    possibleMoves.push(passantSquare);
+                }
+            }
 
             return $q.when(possibleMoves);
         };
