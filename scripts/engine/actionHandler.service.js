@@ -1,9 +1,15 @@
 'use strict';
 (function(angular) {
 
-    angular.module('chesster.engine').factory('actionHandler', ['sessionFactory', function (sessionFactory) {
+    angular.module('chesster.engine').factory('actionHandler', ['sessionFactory', 'sessionMessenger', 'constants', function (sessionFactory, sessionMessenger, constants) {
 
         var pendingMoves = {};
+
+        var sessionUpdateHandler = function(sessionId, messageId, data) {
+            if (messageId == constants.messageCodes.SESSION_SQUARE_ACTIVATED && data.possibleMoves.length > 0) {
+                pendingMoves[sessionId] = {fromSquare: data.square, possibleMoves: data.possibleMoves};
+            }
+        };
 
         var squareClicked = function(sessionId, index) {
             sessionFactory.getSession(sessionId).then(function(session) {
@@ -13,15 +19,12 @@
                     }
                     delete pendingMoves[sessionId];
                 } else {
-                    session.activateSquare(index).then(function(moves) {
-                        if (moves.length == 0) {
-                            return;
-                        }
-                        pendingMoves[sessionId] = {fromSquare: index, possibleMoves: moves};
-                    });
+                    session.activateSquare(index);
                 }
             });
         };
+
+        sessionMessenger.subscribe(sessionUpdateHandler);
 
         return {
             squareClicked: squareClicked

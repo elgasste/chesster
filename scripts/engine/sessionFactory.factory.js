@@ -37,7 +37,6 @@
                 if (possibleMoves.length > 0) {
                     sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_SQUARE_ACTIVATED, {square: square, possibleMoves: possibleMoves});
                 }
-                return $q.when(possibleMoves);
             };
 
             var movePiece = function(fromSquare, toSquare) {
