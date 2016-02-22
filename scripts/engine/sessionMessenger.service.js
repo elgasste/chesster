@@ -3,23 +3,18 @@
 
     angular.module('chesster.engine').factory('sessionMessenger', [function () {
 
-        var subscribers = {};
+        var subscribers = [];
 
-        var subscribe = function(sessionId, listener) {
-            if (!subscribers[sessionId]) {
-                subscribers[sessionId] = [];
-            }
-            subscribers[sessionId].push(listener);
+        var subscribe = function(listener) {
+            if (subscribers.indexOf(listener) == -1)
+                subscribers.push(listener);
         };
 
         // TODO: unsubscribe?
 
         var broadcast = function(sessionId, messageId, data) {
-            if (!subscribers[sessionId]) {
-                return;
-            }
-            for (var i = 0; i < subscribers[sessionId].length; i++) {
-                subscribers[sessionId][i](messageId, data);
+            for (var i = 0; i < subscribers.length; i++) {
+                subscribers[i](sessionId, messageId, data);
             }
         };
 
