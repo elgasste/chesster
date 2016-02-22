@@ -1,7 +1,7 @@
 'use strict';
 (function(angular) {
 
-    angular.module('chesster.engine').factory('rookCalculator', ['$q', function ($q) {
+    angular.module('chesster.engine').factory('rookCalculator', ['$q', 'indexHelper', function ($q, indexHelper) {
 
         var position = {};
         var possibleMoves = [];
@@ -14,7 +14,38 @@
         };
 
         var getMovesForColor = function(fromSquare, color) {
-            // TODO
+            var rank = indexHelper.getRankFromIndex(fromSquare);
+            var file = indexHelper.getFileFromIndex(fromSquare);
+
+            for (var i = rank - 1, iter = 1; i > 0; i--, iter++) {
+                var targetSquare = fromSquare + (8 * iter);
+                addMoveIfPossible(targetSquare, color);
+                if (position.pieces[targetSquare] != '-') {
+                    break;
+                }
+            }
+            for (var i = rank + 1, iter = 1; i < 9; i++, iter++) {
+                var targetSquare = fromSquare - (8 * iter);
+                addMoveIfPossible(targetSquare, color);
+                if (position.pieces[targetSquare] != '-') {
+                    break;
+                }
+            }
+            for (var i = file - 1, iter = 1; i > 0; i--, iter++) {
+                var targetSquare = fromSquare - iter;
+                addMoveIfPossible(targetSquare, color);
+                if (position.pieces[targetSquare] != '-') {
+                    break;
+                }
+            }
+            for (var i = file + 1, iter = 1; i < 9; i++, iter++) {
+                var targetSquare = fromSquare + iter;
+                addMoveIfPossible(targetSquare, color);
+                if (position.pieces[targetSquare] != '-') {
+                    break;
+                }
+            }
+
             return $q.when(possibleMoves);
         };
 
