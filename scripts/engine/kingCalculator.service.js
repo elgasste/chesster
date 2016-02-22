@@ -38,7 +38,26 @@
         };
 
         var tryQueensideCastling = function(fromSquare, color) {
-            // TODO
+            var safetySquares = [];
+            if (color == 'b') {
+                if (position.pieces[4] != 'k' || position.pieces[0] != 'r' || position.pieces[1] != '-' || position.pieces[2] != '-' || position.pieces[3] != '-') {
+                    return;
+                }
+                safetySquares = [2, 3, 4];
+            } else {
+                if (position.pieces[60] != 'K' || position.pieces[56] != 'R' || position.pieces[57] != '-' || position.pieces[58] != '-' || position.pieces[59] != '-') {
+                    return;
+                }
+                safetySquares = [58, 59, 60];
+            }
+
+            for (var i = 0; i < safetySquares.length; i++) {
+                if (dangerZones.indexOf(safetySquares[i]) != -1) {
+                    return;
+                }
+            }
+
+            possibleMoves.push(color == 'b' ? 2 : 58);
         };
 
         var getMovesForColor = function(fromSquare, color) {
