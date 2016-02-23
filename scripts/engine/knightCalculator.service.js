@@ -18,7 +18,7 @@
             var fromFile = indexHelper.getFileFromIndex(fromSquare);
 
             if (fromRank < 8) {
-                if (fromFile > 1) addMoveIfPossible(fromSquare - 10, color);
+                if (fromFile > 2) addMoveIfPossible(fromSquare - 10, color);
                 if (fromFile < 7) addMoveIfPossible(fromSquare - 6, color);
             }
             if (fromRank < 7) {
@@ -30,7 +30,7 @@
                 if (fromFile < 8) addMoveIfPossible(fromSquare + 17, color);
             }
             if (fromRank > 1) {
-                if (fromFile > 1) addMoveIfPossible(fromSquare + 6, color);
+                if (fromFile > 2) addMoveIfPossible(fromSquare + 6, color);
                 if (fromFile < 7) addMoveIfPossible(fromSquare + 10, color);
             }
 
