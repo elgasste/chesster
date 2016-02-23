@@ -22,15 +22,44 @@
             }
         };
 
+        var removeCastlingAbility = function(position, charCode) {
+            // TODO
+        };
+
+        var detectCastling = function(position, fromSquare, toSquare) {
+            if (fromSquare == 4) {
+                if (toSquare == 6 && position.pieces[6] == 'k') {
+                    position.pieces = position.pieces.substr(0, 5) + 'r' + position.pieces.substr(6);
+                    position.pieces = position.pieces.substr(0, 7) + '-' + position.pieces.substr(8);
+                    removeCastlingAbility('k');
+                } else if (toSquare == 2 && position.pieces[2] == 'k') {
+                    position.pieces = position.pieces.substr(0, 3) + 'r' + position.pieces.substr(4);
+                    position.pieces = '-' + position.pieces.substr(1);
+                    removeCastlingAbility('q');
+                }
+            } else if (fromSquare == 60) {
+                if (toSquare == 62 && position.pieces[62] == 'K') {
+                    position.pieces = position.pieces.substr(0, 61) + 'R' + position.pieces.substr(62);
+                    position.pieces = position.pieces.substr(0, 63) + '-';
+                    removeCastlingAbility('K');
+                } else if (toSquare == 58 && position.pieces[58] == 'K') {
+                    position.pieces = position.pieces.substr(0, 59) + 'R' + position.pieces.substr(60);
+                    position.pieces = position.pieces.substr(0, 56) + '-' + position.pieces.substr(57);
+                    removeCastlingAbility('Q');
+                }
+            }
+        };
+
         var movePiece = function(position, fromSquare, toSquare) {
             return getPossibleMovesForSquare(position, fromSquare).then(function(moves) {
                 if (moves.indexOf(toSquare) == -1) {
                     console.error('standardRuleset: ' + constants.rulesetErrors.STANDARD_INVALID_MOVE);
                     return $q.reject();
                 }
-                // TODO: this doesn't handle castling
                 position.pieces = position.pieces.substr(0, toSquare) + position.pieces[fromSquare] + position.pieces.substr(toSquare+1);
                 position.pieces = position.pieces.substr(0, fromSquare) + '-' + position.pieces.substr(fromSquare+1);
+
+                detectCastling(position, fromSquare, toSquare);
 
                 position.halfmove++;
                 if (position.active == 'b') {
