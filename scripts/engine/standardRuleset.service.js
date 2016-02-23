@@ -64,7 +64,9 @@
         };
 
         var movePiece = function(position, fromSquare, toSquare) {
+            // TODO: add a function that detects if the king is in check.
             return getPossibleMovesForSquare(position, fromSquare).then(function(moves) {
+                // TODO: for each of these moves, see if it leaves the king in check
                 if (moves.indexOf(toSquare) == -1) {
                     console.error('standardRuleset: ' + constants.rulesetErrors.STANDARD_INVALID_MOVE);
                     return $q.reject();
@@ -75,12 +77,13 @@
                 detectCastling(position, fromSquare, toSquare);
                 updateCastlingFlags(position, fromSquare, toSquare);
 
+                position.active = (position.active == 'w') ? 'b' : 'w';
                 position.halfmove++;
-                if (position.active == 'b') {
+                if (position.active == 'w') {
                     position.fullmove++;
                 }
-                position.active = (position.active == 'w') ? 'b' : 'w';
-                // TODO: update castling availability and en passant square
+
+                // TODO: update en passant square
 
                 return $q.when(position);
             })
