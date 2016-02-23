@@ -1,7 +1,7 @@
 'use strict';
 (function(angular) {
 
-    angular.module('chesster.engine').factory('standardRuleset', ['$q', 'constants', 'pawnCalculator', 'knightCalculator', 'bishopCalculator', 'rookCalculator', 'queenCalculator', 'kingCalculator', function ($q, constants, pawnCalculator, knightCalculator, bishopCalculator, rookCalculator, queenCalculator, kingCalculator) {
+    angular.module('chesster.engine').factory('standardRuleset', ['$q', 'constants', 'positionHelper', 'pawnCalculator', 'knightCalculator', 'bishopCalculator', 'rookCalculator', 'queenCalculator', 'kingCalculator', function ($q, constants, positionHelper, pawnCalculator, knightCalculator, bishopCalculator, rookCalculator, queenCalculator, kingCalculator) {
 
         var getPossibleMovesForSquare = function(position, square) {
             // TODO: this doesn't take checks into consideration at all
@@ -22,6 +22,11 @@
             }
         };
 
+        var movePieceInString = function(position, fromSquare, toSquare) {
+            position.pieces = position.pieces.substr(0, toSquare) + position.pieces[fromSquare] + position.pieces.substr(toSquare+1);
+            position.pieces = position.pieces.substr(0, fromSquare) + '-' + position.pieces.substr(fromSquare+1);
+        };
+
         var removeCastlingAbility = function(position, charCode) {
             // TODO
         };
@@ -29,22 +34,18 @@
         var detectCastling = function(position, fromSquare, toSquare) {
             if (fromSquare == 4) {
                 if (toSquare == 6 && position.pieces[6] == 'k') {
-                    position.pieces = position.pieces.substr(0, 5) + 'r' + position.pieces.substr(6);
-                    position.pieces = position.pieces.substr(0, 7) + '-' + position.pieces.substr(8);
+                    positionHelper.movePieceInString(position, 7, 5);
                     removeCastlingAbility('k');
                 } else if (toSquare == 2 && position.pieces[2] == 'k') {
-                    position.pieces = position.pieces.substr(0, 3) + 'r' + position.pieces.substr(4);
-                    position.pieces = '-' + position.pieces.substr(1);
+                    positionHelper.movePieceInString(position, 0, 3);
                     removeCastlingAbility('q');
                 }
             } else if (fromSquare == 60) {
                 if (toSquare == 62 && position.pieces[62] == 'K') {
-                    position.pieces = position.pieces.substr(0, 61) + 'R' + position.pieces.substr(62);
-                    position.pieces = position.pieces.substr(0, 63) + '-';
+                    positionHelper.movePieceInString(position, 63, 61);
                     removeCastlingAbility('K');
                 } else if (toSquare == 58 && position.pieces[58] == 'K') {
-                    position.pieces = position.pieces.substr(0, 59) + 'R' + position.pieces.substr(60);
-                    position.pieces = position.pieces.substr(0, 56) + '-' + position.pieces.substr(57);
+                    positionHelper.movePieceInString(position, 56, 59);
                     removeCastlingAbility('Q');
                 }
             }
@@ -56,8 +57,8 @@
                     console.error('standardRuleset: ' + constants.rulesetErrors.STANDARD_INVALID_MOVE);
                     return $q.reject();
                 }
-                position.pieces = position.pieces.substr(0, toSquare) + position.pieces[fromSquare] + position.pieces.substr(toSquare+1);
-                position.pieces = position.pieces.substr(0, fromSquare) + '-' + position.pieces.substr(fromSquare+1);
+
+                positionHelper.movePieceInString(position, fromSquare, toSquare);
 
                 detectCastling(position, fromSquare, toSquare);
 

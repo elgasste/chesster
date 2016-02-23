@@ -16,8 +16,14 @@
             return copy;
         };
 
+        var movePieceInString = function(position, fromIndex, toIndex) {
+            position.pieces = position.pieces.substr(0, toIndex) + position.pieces[fromIndex] + position.pieces.substr(toIndex+1);
+            position.pieces = position.pieces.substr(0, fromIndex) + '-' + position.pieces.substr(fromIndex+1);
+        };
+
         return {
-            copyPosition: copyPosition
+            copyPosition: copyPosition,
+            movePieceInString: movePieceInString
         };
 
     }]);
