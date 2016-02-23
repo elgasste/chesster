@@ -22,20 +22,14 @@
             }
         };
 
-        var removeCastlingAbility = function(position, color) {
-            var charCodes = (color == 'w') ? ['K', 'Q'] : ['k', 'q'];
-            for (var i = 0; i < 2; i++) {
-                while (position.castling.indexOf(charCodes[i]) != -1) {
-                    var index = position.castling.indexOf(charCodes[i]);
-                    position.castling = position.castling.substr(0, index) + position.castling.substr(index+1);
-                }
+        var removeCastlingAbility = function(position, charCode) {
+            while (position.castling.indexOf(charCode) != -1) {
+                var index = position.castling.indexOf(charCode);
+                position.castling = position.castling.substr(0, index) + position.castling.substr(index+1);
             }
             if (position.castling.length == 0) {
                 position.castling = '-';
             }
-
-            // MUFFINS
-            console.log('new castling string: ' + position.castling);
         };
 
         var detectCastling = function(position, fromSquare, toSquare) {
@@ -65,9 +59,11 @@
 
                 detectCastling(position, fromSquare, toSquare);
                 if (position.pieces[toSquare] == 'k') {
-                    removeCastlingAbility(position, 'b');
+                    removeCastlingAbility(position, 'k');
+                    removeCastlingAbility(position, 'q');
                 } else if (position.pieces[toSquare] == 'K') {
-                    removeCastlingAbility(position, 'w')
+                    removeCastlingAbility(position, 'K');
+                    removeCastlingAbility(position, 'Q');
                 }
 
                 position.halfmove++;
