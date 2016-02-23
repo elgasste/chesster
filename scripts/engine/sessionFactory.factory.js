@@ -33,7 +33,8 @@
             };
 
             var activateSquare = function(square) {
-                ruleset.getPossibleMovesForPosition(positionHelper.copyPosition(currentPosition)).then(function(moves) {
+                var positionCopy = positionHelper.copyPosition(currentPosition);
+                ruleset.getPossibleMovesForSquare(positionCopy, square).then(function(moves) {
                     if (moves.length > 0) {
                         sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_SQUARE_ACTIVATED, {square: square, possibleMoves: moves});
                     }
