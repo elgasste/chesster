@@ -46,3 +46,7 @@
 .session-info-container {
     margin-top: 20px;
 }
+
+.session-info-fen-input {
+    width: 500px;
+}

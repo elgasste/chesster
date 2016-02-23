@@ -1,11 +1,14 @@
 'use strict';
 
-angular.module('chesster.view').directive('sessionInfo', ['sessionMessenger', 'constants', function(sessionMessenger, constants) {
+angular.module('chesster.view').directive('sessionInfo', ['sessionMessenger', 'constants', 'fenHelper', function(sessionMessenger, constants, fenHelper) {
 
     function link(scope) {
 
         var updatePositionInfo = function(position) {
             scope.activeColor = (position.active == 'w') ? 'White' : 'Black';
+            fenHelper.getFenStringFromPosition(position).then(function(fen) {
+                scope.fenString = fen;
+            });
         };
 
         var sessionUpdateHandler = function(sessionId, messageId, data) {
