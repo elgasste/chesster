@@ -39,7 +39,7 @@
 
             // en passant
             if (position.passant != '-' && fromSquare > 31 && fromSquare < 40) {
-                var passantSquare = algebraicHelper.getSquareIndexFromAlgebraic(position.passant);
+                var passantSquare = algebraicHelper.getIndexFromAlgebraic(position.passant);
                 if (passantSquare == fromSquare + 7 || passantSquare == fromSquare + 9) {
                     possibleMoves.push(passantSquare);
                 }
@@ -82,7 +82,7 @@
 
             // en passant
             if (position.passant != '-' && fromSquare > 23 && fromSquare < 32) {
-                var passantSquare = algebraicHelper.getSquareIndexFromAlgebraic(position.passant);
+                var passantSquare = algebraicHelper.getIndexFromAlgebraic(position.passant);
                 if (passantSquare == fromSquare - 7 || passantSquare == fromSquare - 9) {
                     possibleMoves.push(passantSquare);
                 }

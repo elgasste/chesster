@@ -1,7 +1,7 @@
 'use strict';
 (function(angular) {
 
-    angular.module('chesster.engine').factory('standardRuleset', ['$q', 'constants', 'positionHelper', 'pawnCalculator', 'knightCalculator', 'bishopCalculator', 'rookCalculator', 'queenCalculator', 'kingCalculator', function ($q, constants, positionHelper, pawnCalculator, knightCalculator, bishopCalculator, rookCalculator, queenCalculator, kingCalculator) {
+    angular.module('chesster.engine').factory('standardRuleset', ['$q', 'constants', 'positionHelper', 'algebraicHelper', 'pawnCalculator', 'knightCalculator', 'bishopCalculator', 'rookCalculator', 'queenCalculator', 'kingCalculator', function ($q, constants, positionHelper, algebraicHelper, pawnCalculator, knightCalculator, bishopCalculator, rookCalculator, queenCalculator, kingCalculator) {
 
         var getPossibleMovesForSquare = function(position, square) {
             // TODO: this doesn't take checks into consideration at all
@@ -48,7 +48,7 @@
             }
         };
 
-        var updateCastlingFlags = function(position, fromSquare, toSquare) {
+        var updateCastlingFlags = function(position, fromSquare) {
             switch(fromSquare) {
                 case 0: removeCastlingAbility(position, 'q'); break;
                 case 4: removeCastlingAbility(position, 'q');
@@ -60,6 +60,16 @@
                          removeCastlingAbility(position, 'K');
                          break;
                 case 63: removeCastlingAbility(position, 'K'); break;
+            }
+        };
+
+        var detectEnPassant = function(position, fromSquare, toSquare) {
+            if (position.pieces[toSquare] == 'p' && fromSquare == (toSquare - 16)) {
+                position.passant = algebraicHelper.getAlgebraicFromIndex(toSquare - 8);
+            } else if (position.pieces[toSquare] == 'P' && fromSquare == (toSquare + 16)) {
+                position.passant = algebraicHelper.getAlgebraicFromIndex(toSquare + 8);
+            } else {
+                position.passant = '-';
             }
         };
 
@@ -75,15 +85,14 @@
                 positionHelper.movePieceInString(position, fromSquare, toSquare);
 
                 detectCastling(position, fromSquare, toSquare);
-                updateCastlingFlags(position, fromSquare, toSquare);
+                updateCastlingFlags(position, fromSquare);
+                detectEnPassant(position, fromSquare, toSquare);
 
                 position.active = (position.active == 'w') ? 'b' : 'w';
                 position.halfmove++;
                 if (position.active == 'w') {
                     position.fullmove++;
                 }
-
-                // TODO: update en passant square
 
                 return $q.when(position);
             })
