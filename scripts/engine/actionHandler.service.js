@@ -41,7 +41,7 @@
             });
         };
 
-        var pieceDropped = function(sessionId, index) {
+        var dropPiece = function(sessionId, index) {
             sessionFactory.getSession(sessionId).then(function(session) {
                 if (!pendingMoves[sessionId]) {
                     return;
@@ -64,7 +64,7 @@
         return {
             squareClicked: squareClicked,
             dragStarted: dragStarted,
-            pieceDropped: pieceDropped
+            dropPiece: dropPiece
         };
 
     }]);
