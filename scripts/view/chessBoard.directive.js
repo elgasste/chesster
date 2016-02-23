@@ -37,13 +37,13 @@ angular.module('chesster.view').directive('chessBoard', ['constants', 'sessionMe
         };
 
         var updateActiveSquare = function(activityData) {
-            var rank = indexHelper.getRankFromIndex(activityData.square);
+            var rank = 8 - indexHelper.getRankFromIndex(activityData.square);
             var file = indexHelper.getFileFromIndex(activityData.square);
-            scope.rows[rank-1].squares[file-1].active = true;
+            scope.rows[rank].squares[file-1].active = true;
             for (var i = 0; i < activityData.possibleMoves.length; i++) {
-                rank = indexHelper.getRankFromIndex(activityData.possibleMoves[i]);
+                rank = 8 - indexHelper.getRankFromIndex(activityData.possibleMoves[i]);
                 file = indexHelper.getFileFromIndex(activityData.possibleMoves[i]);
-                scope.rows[rank-1].squares[file-1].possibleMove = true;
+                scope.rows[rank].squares[file-1].possibleMove = true;
             }
         };
 

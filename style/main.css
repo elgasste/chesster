@@ -23,3 +23,11 @@
 .chess-board-black-square {
     background-color: #aaa;
 }
+
+.chess-board-active-square {
+    background-color: #33cc33;
+}
+
+.chess-board-possible-move {
+    background-color: #66ff66;
+}
