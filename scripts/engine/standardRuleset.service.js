@@ -30,7 +30,14 @@
                 }
                 position.pieces = position.pieces.substr(0, toSquare) + position.pieces[fromSquare] + position.pieces.substr(toSquare+1);
                 position.pieces = position.pieces.substr(0, fromSquare) + '-' + position.pieces.substr(fromSquare+1);
-                // TODO: update active, castling, passant, fullmove, and halfmove
+
+                position.halfmove++;
+                if (position.active == 'b') {
+                    position.fullmove++;
+                }
+                position.active = (position.active == 'w') ? 'b' : 'w';
+                // TODO: update castling availability and en passant square
+
                 return $q.when(position);
             })
         };
