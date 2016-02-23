@@ -21,9 +21,14 @@
             position.pieces = position.pieces.substr(0, fromIndex) + '-' + position.pieces.substr(fromIndex+1);
         };
 
+        var removePieceInString = function(position, index) {
+            position.pieces = position.pieces.substr(0, index) + '-' + position.pieces.substr(index+1);
+        };
+
         return {
             copyPosition: copyPosition,
-            movePieceInString: movePieceInString
+            movePieceInString: movePieceInString,
+            removePieceInString: removePieceInString
         };
 
     }]);

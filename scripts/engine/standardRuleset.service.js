@@ -64,6 +64,20 @@
         };
 
         var detectEnPassant = function(position, fromSquare, toSquare) {
+            if (position.passant == '-' || (position.pieces[toSquare] != 'p' && position.pieces[toSquare != 'P'])) {
+                return;
+            }
+            var passantIndex = algebraicHelper.getIndexFromAlgebraic(position.passant);
+            if (toSquare == passantIndex) {
+                if (position.pieces[toSquare] == 'p') {
+                    positionHelper.removePieceInString(position, toSquare - 8);
+                } else {
+                    positionHelper.removePieceInString(position, toSquare + 8);
+                }
+            }
+        };
+
+        var updateEnPassantFlag = function(position, fromSquare, toSquare) {
             if (position.pieces[toSquare] == 'p' && fromSquare == (toSquare - 16)) {
                 position.passant = algebraicHelper.getAlgebraicFromIndex(toSquare - 8);
             } else if (position.pieces[toSquare] == 'P' && fromSquare == (toSquare + 16)) {
@@ -87,6 +101,7 @@
                 detectCastling(position, fromSquare, toSquare);
                 updateCastlingFlags(position, fromSquare);
                 detectEnPassant(position, fromSquare, toSquare);
+                updateEnPassantFlag(position, fromSquare, toSquare);
 
                 position.active = (position.active == 'w') ? 'b' : 'w';
                 position.halfmove++;
