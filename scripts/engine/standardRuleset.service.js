@@ -48,6 +48,21 @@
             }
         };
 
+        var updateCastlingFlags = function(position, fromSquare, toSquare) {
+            switch(fromSquare) {
+                case 0: removeCastlingAbility(position, 'q'); break;
+                case 4: removeCastlingAbility(position, 'q');
+                        removeCastlingAbility(position, 'k');
+                        break;
+                case 7: removeCastlingAbility(position, 'k'); break;
+                case 56: removeCastlingAbility(position, 'Q'); break;
+                case 60: removeCastlingAbility(position, 'Q');
+                         removeCastlingAbility(position, 'K');
+                         break;
+                case 63: removeCastlingAbility(position, 'K'); break;
+            }
+        };
+
         var movePiece = function(position, fromSquare, toSquare) {
             return getPossibleMovesForSquare(position, fromSquare).then(function(moves) {
                 if (moves.indexOf(toSquare) == -1) {
@@ -58,13 +73,7 @@
                 positionHelper.movePieceInString(position, fromSquare, toSquare);
 
                 detectCastling(position, fromSquare, toSquare);
-                if (position.pieces[toSquare] == 'k') {
-                    removeCastlingAbility(position, 'k');
-                    removeCastlingAbility(position, 'q');
-                } else if (position.pieces[toSquare] == 'K') {
-                    removeCastlingAbility(position, 'K');
-                    removeCastlingAbility(position, 'Q');
-                }
+                updateCastlingFlags(position, fromSquare, toSquare);
 
                 position.halfmove++;
                 if (position.active == 'b') {
