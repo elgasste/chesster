@@ -181,6 +181,8 @@
                 }
             }
 
+            piecesString = piecesString.substr(0, piecesString.length - 1);
+
             return $q.when(piecesString);
         };
 
