@@ -103,6 +103,7 @@
                 detectEnPassant(position, fromSquare, toSquare);
                 updateEnPassantFlag(position, fromSquare, toSquare);
 
+                // TODO: reset the halfmove clock on piece capture or pawn move
                 position.active = (position.active == 'w') ? 'b' : 'w';
                 position.halfmove++;
                 if (position.active == 'w') {

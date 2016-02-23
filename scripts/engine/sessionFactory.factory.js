@@ -53,6 +53,7 @@
                 var capturedPiece = currentPosition.pieces[toSquare];
                 var positionCopy = positionHelper.copyPosition(currentPosition);
                 ruleset.movePiece(positionCopy, fromSquare, toSquare).then(function(newPosition) {
+                    // TODO: either in here or in the ruleset, 50 halfmoves is a draw
                     currentPosition = newPosition;
                     sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_POSITION_CHANGED, currentPosition);
                     if (capturedPiece != '-') {
