@@ -1,7 +1,8 @@
 <div class="chess-board-container">
     <div class="chess-board-row" ng-repeat="row in rows">
-        <div class="chess-board-square" ng-class="{'chess-board-black-square': square.color == 'b', 'chess-board-active-square': square.active, 'chess-board-possible-move': square.possibleMove}" ng-repeat="square in row.squares" ng-click="squareClicked(square.index)">
-            <img ng-src="images/{{square.piece}}.png" />
+        <div class="chess-board-square" ng-class="{'chess-board-black-square': square.color == 'b', 'chess-board-active-square': square.active}" ng-repeat="square in row.squares" ng-click="squareClicked(square.index)">
+            <img class="chess-board-piece" ng-src="images/{{square.piece}}.png" />
+            <div class="chess-board-possible-move" ng-show="square.possibleMove"></div>
         </div>
     </div>
 </div>

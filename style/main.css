@@ -7,12 +7,17 @@
     border: 1px solid black;
 }
 
+.chess-board-piece {
+    z-index: 10;
+}
+
 .chess-board-row {
     display: flex;
     flex-direction: row;
 }
 
 .chess-board-square {
+    position: relative;
     width: 50px;
     height: 50px;
     display: flex;
@@ -29,7 +34,13 @@
 }
 
 .chess-board-possible-move {
-    background-color: #66ff66;
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    width: 34px;
+    height: 34px;
+    border: 2px solid #66bb66;
+    border-radius: 20px;
 }
 
 .session-info-container {
