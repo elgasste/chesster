@@ -31,3 +31,7 @@
 .chess-board-possible-move {
     background-color: #66ff66;
 }
+
+.session-info-container {
+    margin-top: 20px;
+}

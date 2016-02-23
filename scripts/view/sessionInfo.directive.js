@@ -4,6 +4,10 @@ angular.module('chesster.view').directive('sessionInfo', ['sessionMessenger', 'c
 
     function link(scope) {
 
+        var updatePositionInfo = function(position) {
+            scope.activeColor = (position.active == 'w') ? 'White' : 'Black';
+        };
+
         var sessionUpdateHandler = function(sessionId, messageId, data) {
             if (scope.session.getSessionId() != sessionId) {
                 return;
@@ -11,12 +15,14 @@ angular.module('chesster.view').directive('sessionInfo', ['sessionMessenger', 'c
             var codes = constants.messageCodes;
             switch (messageId) {
                 case codes.SESSION_POSITION_CHANGED:
-                    console.log('new position: ' + data);
+                    updatePositionInfo(data);
                     break;
             }
         };
 
         sessionMessenger.subscribe(sessionUpdateHandler);
+
+        updatePositionInfo(scope.session.getCurrentPosition());
     }
 
     return {
