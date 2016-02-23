@@ -28,6 +28,7 @@
                     console.error('standardRuleset: ' + constants.rulesetErrors.STANDARD_INVALID_MOVE);
                     return $q.reject();
                 }
+                // TODO: this doesn't handle castling
                 position.pieces = position.pieces.substr(0, toSquare) + position.pieces[fromSquare] + position.pieces.substr(toSquare+1);
                 position.pieces = position.pieces.substr(0, fromSquare) + '-' + position.pieces.substr(fromSquare+1);
 

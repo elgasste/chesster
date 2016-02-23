@@ -47,6 +47,7 @@
             };
 
             var movePiece = function(fromSquare, toSquare) {
+                // TODO: keep track of moves in a list
                 deactivateSquares();
                 var capturedPiece = currentPosition.pieces[toSquare];
                 var positionCopy = positionHelper.copyPosition(currentPosition);
