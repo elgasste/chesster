@@ -22,31 +22,34 @@
             }
         };
 
-        var movePieceInString = function(position, fromSquare, toSquare) {
-            position.pieces = position.pieces.substr(0, toSquare) + position.pieces[fromSquare] + position.pieces.substr(toSquare+1);
-            position.pieces = position.pieces.substr(0, fromSquare) + '-' + position.pieces.substr(fromSquare+1);
-        };
+        var removeCastlingAbility = function(position, color) {
+            var charCodes = (color == 'w') ? ['K', 'Q'] : ['k', 'q'];
+            for (var i = 0; i < 2; i++) {
+                while (position.castling.indexOf(charCodes[i]) != -1) {
+                    var index = position.castling.indexOf(charCodes[i]);
+                    position.castling = position.castling.substr(0, index) + position.castling.substr(index+1);
+                }
+            }
+            if (position.castling.length == 0) {
+                position.castling = '-';
+            }
 
-        var removeCastlingAbility = function(position, charCode) {
-            // TODO
+            // MUFFINS
+            console.log('new castling string: ' + position.castling);
         };
 
         var detectCastling = function(position, fromSquare, toSquare) {
             if (fromSquare == 4) {
                 if (toSquare == 6 && position.pieces[6] == 'k') {
                     positionHelper.movePieceInString(position, 7, 5);
-                    removeCastlingAbility('k');
                 } else if (toSquare == 2 && position.pieces[2] == 'k') {
                     positionHelper.movePieceInString(position, 0, 3);
-                    removeCastlingAbility('q');
                 }
             } else if (fromSquare == 60) {
                 if (toSquare == 62 && position.pieces[62] == 'K') {
                     positionHelper.movePieceInString(position, 63, 61);
-                    removeCastlingAbility('K');
                 } else if (toSquare == 58 && position.pieces[58] == 'K') {
                     positionHelper.movePieceInString(position, 56, 59);
-                    removeCastlingAbility('Q');
                 }
             }
         };
@@ -61,6 +64,11 @@
                 positionHelper.movePieceInString(position, fromSquare, toSquare);
 
                 detectCastling(position, fromSquare, toSquare);
+                if (position.pieces[toSquare] == 'k') {
+                    removeCastlingAbility(position, 'b');
+                } else if (position.pieces[toSquare] == 'K') {
+                    removeCastlingAbility(position, 'w')
+                }
 
                 position.halfmove++;
                 if (position.active == 'b') {
