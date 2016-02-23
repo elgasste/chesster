@@ -40,14 +40,14 @@ angular.module('chesster.view').directive('chessBoard', ['constants', 'sessionMe
             actionHandler.squareClicked(scope.session.getSessionId(), index);
         };
 
-        var sessionUpdateHandler = function(sessionId, messageId) {
+        var sessionUpdateHandler = function(sessionId, messageId, data) {
             if (scope.session.getSessionId() != sessionId) {
                 return;
             }
             var codes = constants.messageCodes;
             switch (messageId) {
                 case codes.SESSION_POSITION_CHANGED:
-                    updatePieces(scope.session.getCurrentPosition().pieces);
+                    updatePieces(data.pieces);
                     break;
             }
         };

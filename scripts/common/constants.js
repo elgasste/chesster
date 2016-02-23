@@ -20,6 +20,10 @@
             PIECES_STRING_INCORRECT: 'The position contains an invalid pieces string'
         },
 
+        rulesetErrors: {
+            STANDARD_INVALID_MOVE: 'Invalid move attempt'
+        },
+
         messageCodes: {
             SESSION_POSITION_CHANGED: 100,
             SESSION_SQUARE_ACTIVATED: 101,

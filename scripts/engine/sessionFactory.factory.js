@@ -42,18 +42,15 @@
             };
 
             var movePiece = function(fromSquare, toSquare) {
-                var pieceFrom = currentPosition.pieces[fromSquare];
-                if (pieceFrom == '-') {
-                    return;
-                }
-                var pieceTo =  currentPosition.pieces[toSquare];
-                currentPosition.pieces = currentPosition.pieces.substr(0, toSquare) + currentPosition.pieces[fromSquare] + currentPosition.pieces.substr(toSquare+1);
-                currentPosition.pieces = currentPosition.pieces.substr(0, fromSquare) + '-' + currentPosition.pieces.substr(fromSquare+1);
-                // TODO: update active, castling, passant, fullmove, and halfmove
-                sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_POSITION_CHANGED);
-                if (pieceTo != '-') {
-                    sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_PIECE_CAPTURED, pieceTo);
-                }
+                var capturedPiece = currentPosition.pieces[toSquare];
+                var positionCopy = positionHelper.copyPosition(currentPosition);
+                ruleset.movePiece(positionCopy, fromSquare, toSquare).then(function(newPosition) {
+                    currentPosition = newPosition;
+                    sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_POSITION_CHANGED, currentPosition);
+                    if (capturedPiece != '-') {
+                        sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_PIECE_CAPTURED, capturedPiece);
+                    }
+                });
             };
 
             return {
