@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('chesster.view').directive('chessBoard', ['constants', 'sessionMessenger', 'actionHandler', function(constants, sessionMessenger, actionHandler) {
+angular.module('chesster.view').directive('chessBoard', ['constants', 'sessionMessenger', 'actionHandler', 'indexHelper', function(constants, sessionMessenger, actionHandler, indexHelper) {
 
     function link(scope) {
         scope.rows = [];
@@ -36,6 +36,26 @@ angular.module('chesster.view').directive('chessBoard', ['constants', 'sessionMe
             }
         };
 
+        var updateActiveSquare = function(activityData) {
+            var rank = indexHelper.getRankFromIndex(activityData.square);
+            var file = indexHelper.getFileFromIndex(activityData.square);
+            scope.rows[rank-1].squares[file-1].active = true;
+            for (var i = 0; i < activityData.possibleMoves.length; i++) {
+                rank = indexHelper.getRankFromIndex(activityData.possibleMoves[i]);
+                file = indexHelper.getFileFromIndex(activityData.possibleMoves[i]);
+                scope.rows[rank-1].squares[file-1].possibleMove = true;
+            }
+        };
+
+        var deactivateSquares = function() {
+            for (var i = 0; i < 8; i++) {
+                for (var j = 0; j < 8; j++) {
+                    scope.rows[i].squares[j].active = false;
+                    scope.rows[i].squares[j].possibleMove = false;
+                }
+            }
+        };
+
         scope.squareClicked = function(index) {
             actionHandler.squareClicked(scope.session.getSessionId(), index);
         };
@@ -48,6 +68,12 @@ angular.module('chesster.view').directive('chessBoard', ['constants', 'sessionMe
             switch (messageId) {
                 case codes.SESSION_POSITION_CHANGED:
                     updatePieces(data.pieces);
+                    break;
+                case codes.SESSION_SQUARE_ACTIVATED:
+                    updateActiveSquare(data);
+                    break;
+                case codes.SESSION_SQUARES_DEACTIVATED:
+                    deactivateSquares();
                     break;
             }
         };

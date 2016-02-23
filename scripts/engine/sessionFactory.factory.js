@@ -41,6 +41,10 @@
                 });
             };
 
+            var deactivateSquares = function () {
+                sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_SQUARES_DEACTIVATED);
+            };
+
             var movePiece = function(fromSquare, toSquare) {
                 var capturedPiece = currentPosition.pieces[toSquare];
                 var positionCopy = positionHelper.copyPosition(currentPosition);
@@ -58,6 +62,7 @@
                 getCurrentPosition: getCurrentPosition,
                 loadFromFen: loadFromFen,
                 activateSquare: activateSquare,
+                deactivateSquares: deactivateSquares,
                 movePiece: movePiece
             };
         }

@@ -17,6 +17,7 @@
                     if (pendingMoves[sessionId].possibleMoves.indexOf(index) != -1) {
                         session.movePiece(pendingMoves[sessionId].fromSquare, index);
                     }
+                    session.deactivateSquares();
                     delete pendingMoves[sessionId];
                 } else {
                     session.activateSquare(index);
