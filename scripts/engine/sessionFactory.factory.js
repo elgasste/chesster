@@ -2,7 +2,7 @@
 
 (function(angular) {
 
-    angular.module('chesster.engine').factory('sessionFactory', ['$q', 'constants', 'sessionMessenger', 'positionHelper', 'fenHelper', function ($q, constants, sessionMessenger, positionHelper, fenHelper) {
+    angular.module('chesster.engine').factory('sessionFactory', ['$q', 'constants', 'sessionMessenger', 'positionHelper', 'fenHelper', 'standardRuleset', function ($q, constants, sessionMessenger, positionHelper, fenHelper, standardRuleset) {
 
         var sessions = [];
         var sessionCounter = 0;
@@ -14,6 +14,7 @@
         function Session (id) {
             var sessionId = id;
             var currentPosition = {};
+            var ruleset = standardRuleset;
 
             var getSessionId = function() {
                 return sessionId;
@@ -32,11 +33,11 @@
             };
 
             var activateSquare = function(square) {
-                var possibleMoves = [];
-                // TODO: actually build a list of possible moves
-                if (possibleMoves.length > 0) {
-                    sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_SQUARE_ACTIVATED, {square: square, possibleMoves: possibleMoves});
-                }
+                ruleset.getPossibleMovesForPosition(positionHelper.copyPosition(currentPosition)).then(function(moves) {
+                    if (moves.length > 0) {
+                        sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_SQUARE_ACTIVATED, {square: square, possibleMoves: moves});
+                    }
+                });
             };
 
             var movePiece = function(fromSquare, toSquare) {
