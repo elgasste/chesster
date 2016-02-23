@@ -60,6 +60,14 @@ angular.module('chesster.view').directive('chessBoard', ['constants', 'sessionMe
             actionHandler.squareClicked(scope.session.getSessionId(), index);
         };
 
+        scope.dragStarted = function (event, ui, index) {
+            actionHandler.dragStarted(scope.session.getSessionId(), index);
+        };
+
+        scope.pieceDropped = function(event, ui, index) {
+            actionHandler.pieceDropped(scope.session.getSessionId(), index);
+        };
+
         var sessionUpdateHandler = function(sessionId, messageId, data) {
             if (scope.session.getSessionId() != sessionId) {
                 return;

@@ -11,6 +11,7 @@
             }
         };
 
+        // TODO: maybe this can be deleted?
         var squareClicked = function(sessionId, index) {
             sessionFactory.getSession(sessionId).then(function(session) {
                 if (pendingMoves[sessionId]) {
@@ -30,10 +31,40 @@
             });
         };
 
+        var dragStarted = function(sessionId, index) {
+            sessionFactory.getSession(sessionId).then(function(session) {
+                if (pendingMoves[sessionId]) {
+                    delete pendingMoves[sessionId];
+                    session.deactivateSquares();
+                }
+                session.activateSquare(index);
+            });
+        };
+
+        var pieceDropped = function(sessionId, index) {
+            sessionFactory.getSession(sessionId).then(function(session) {
+                if (!pendingMoves[sessionId]) {
+                    return;
+                }
+                if (pendingMoves[sessionId].fromSquare == index) {
+                    delete pendingMoves[sessionId];
+                    session.deactivateSquares();
+                } else if (pendingMoves[sessionId].possibleMoves.indexOf(index) != -1) {
+                    session.movePiece(pendingMoves[sessionId].fromSquare, index);
+                    delete pendingMoves[sessionId];
+                } else {
+                    delete pendingMoves[sessionId];
+                    session.deactivateSquares();
+                }
+            });
+        };
+
         sessionMessenger.subscribe(sessionUpdateHandler);
 
         return {
-            squareClicked: squareClicked
+            squareClicked: squareClicked,
+            dragStarted: dragStarted,
+            pieceDropped: pieceDropped
         };
 
     }]);
