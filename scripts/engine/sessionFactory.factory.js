@@ -33,6 +33,7 @@
             };
 
             var activateSquare = function(square) {
+                deactivateSquares();
                 var positionCopy = positionHelper.copyPosition(currentPosition);
                 ruleset.getPossibleMovesForSquare(positionCopy, square).then(function(moves) {
                     if (moves.length > 0) {
@@ -46,6 +47,7 @@
             };
 
             var movePiece = function(fromSquare, toSquare) {
+                deactivateSquares();
                 var capturedPiece = currentPosition.pieces[toSquare];
                 var positionCopy = positionHelper.copyPosition(currentPosition);
                 ruleset.movePiece(positionCopy, fromSquare, toSquare).then(function(newPosition) {

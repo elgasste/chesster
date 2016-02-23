@@ -19,11 +19,9 @@
                         session.deactivateSquares();
                     } else if (pendingMoves[sessionId].possibleMoves.indexOf(index) != -1) {
                         session.movePiece(pendingMoves[sessionId].fromSquare, index);
-                        session.deactivateSquares();
                         delete pendingMoves[sessionId];
                     } else {
                         delete pendingMoves[sessionId];
-                        session.deactivateSquares();
                         session.activateSquare(index);
                     }
                 } else {
