@@ -4,6 +4,7 @@
     angular.module('chesster.engine').factory('standardRuleset', ['$q', 'constants', 'positionHelper', 'algebraicHelper', 'pawnCalculator', 'knightCalculator', 'bishopCalculator', 'rookCalculator', 'queenCalculator', 'kingCalculator', function ($q, constants, positionHelper, algebraicHelper, pawnCalculator, knightCalculator, bishopCalculator, rookCalculator, queenCalculator, kingCalculator) {
 
         var moveCache = [];
+        var capturedPiece = '-';
 
         var getCalculatedMoves = function(position, square, piece, activeColor, dangerSquares) {
             switch(piece.toLowerCase()) {
@@ -113,7 +114,8 @@
             }
             var passantIndex = algebraicHelper.getIndexFromAlgebraic(position.passant);
             if (toSquare == passantIndex) {
-                if (position.pieces[toSquare] == 'p') {
+                capturedPiece = position.pieces[toSquare];
+                if (capturedPiece == 'p') {
                     positionHelper.removePieceInString(position, toSquare - 8);
                 } else {
                     positionHelper.removePieceInString(position, toSquare + 8);
@@ -146,18 +148,19 @@
                 return $q.reject();
             }
 
-            var isCapture = position.pieces[toSquare] != '-';
-            var isPawnMove = position.pieces[fromSquare] == 'p' || position.pieces[fromSquare] == 'P';
-            if (isCapture || isPawnMove) {
-                position.halfmove = 0;
-            } else {
-                position.halfmove++;
-            }
+            var capturedPiece = position.pieces[toSquare];
 
             // TODO: this doesn't account for pawn promotion
             movePiece(position, fromSquare, toSquare);
             updateCastlingFlags(position, fromSquare);
             updateEnPassantFlag(position, fromSquare, toSquare);
+
+            var isPawnMove = position.pieces[toSquare] == 'p' || position.pieces[toSquare] == 'P';
+            if (capturedPiece != '-' || isPawnMove) {
+                position.halfmove = 0;
+            } else {
+                position.halfmove++;
+            }
 
             position.active = (position.active == 'w') ? 'b' : 'w';
             if (position.active == 'w') {
@@ -165,7 +168,7 @@
             }
 
             moveCache = [];
-            return $q.when(position);
+            return $q.when({captured: capturedPiece});
         };
 
         return {
