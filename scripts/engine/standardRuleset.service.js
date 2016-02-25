@@ -177,7 +177,7 @@
                 to: toSquare,
                 moved: movedPiece,
                 captured: capturedPiece,
-                algebraic: algebraicHelper.getAlgebraicMove(fromSquare, toSquare, capturedPiece != '-')
+                algebraic: algebraicHelper.getAlgebraicMove(fromSquare, toSquare, movedPiece, capturedPiece != '-')
             });
         };
 
