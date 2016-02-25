@@ -33,6 +33,7 @@
             return dangerSquares;
         };
 
+        // TODO: add a checkmate check
         var isKingInCheck = function(position, color) {
             var dangerSquares = getDangerSquares(position, (color == 'w') ? 'b' : 'w');
             var king = (color == 'w') ? 'K' : 'k';
@@ -137,7 +138,6 @@
         };
 
         var makeMove = function(position, fromSquare, toSquare) {
-            // TODO: if the king is in check, somehow he's allowed to move into check.
             if (moveCache.length == 0) {
                 getPossibleMovesForSquare(position, fromSquare);
             }

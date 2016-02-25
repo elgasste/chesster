@@ -46,7 +46,7 @@
             };
 
             var makeMove = function(fromSquare, toSquare) {
-                // TODO: keep track of moves in a list
+                // TODO: keep track of moves in a list, along with a position for each move, so it can be traversed
                 deactivateSquares();
                 // TODO: this doesn't work for en passant
                 var capturedPiece = currentPosition.pieces[toSquare];
