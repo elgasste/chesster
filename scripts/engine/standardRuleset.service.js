@@ -3,23 +3,29 @@
 
     angular.module('chesster.engine').factory('standardRuleset', ['$q', 'constants', 'positionHelper', 'algebraicHelper', 'pawnCalculator', 'knightCalculator', 'bishopCalculator', 'rookCalculator', 'queenCalculator', 'kingCalculator', function ($q, constants, positionHelper, algebraicHelper, pawnCalculator, knightCalculator, bishopCalculator, rookCalculator, queenCalculator, kingCalculator) {
 
+        var getDangerSquares = function(position, color) {
+            // TODO
+            return $q.when([]);
+        };
+
         var getPossibleMovesForSquare = function(position, square) {
             // TODO: this doesn't take checks into consideration at all
             var activeColor = position.active;
-            var pieceToMove = position.pieces[square];
-            if (pieceToMove == '-' || (activeColor == 'w' && pieceToMove.toUpperCase() != pieceToMove) || (activeColor == 'b' && pieceToMove.toLowerCase() != pieceToMove)) {
-                return $q.when([]);
-            }
-            switch(pieceToMove.toLowerCase()) {
-                case 'p': return pawnCalculator.getPossibleMovesFromSquare(position, square, activeColor); break;
-                case 'n': return knightCalculator.getPossibleMovesFromSquare(position, square, activeColor); break;
-                case 'b': return bishopCalculator.getPossibleMovesFromSquare(position, square, activeColor); break;
-                case 'r': return rookCalculator.getPossibleMovesFromSquare(position, square, activeColor); break;
-                case 'q': return queenCalculator.getPossibleMovesFromSquare(position, square, activeColor); break;
-                // TODO: pass in attack squares for king calculation
-                case 'k': return kingCalculator.getPossibleMovesFromSquare(position, square, activeColor, []); break;
-                default: return $q.when([]);
-            }
+            getDangerSquares(position, (activeColor == 'w') ? 'b' : 'w').then(function(dangerSquares) {
+                var pieceToMove = position.pieces[square];
+                if (pieceToMove == '-' || (activeColor == 'w' && pieceToMove.toUpperCase() != pieceToMove) || (activeColor == 'b' && pieceToMove.toLowerCase() != pieceToMove)) {
+                    return $q.when([]);
+                }
+                switch(pieceToMove.toLowerCase()) {
+                    case 'p': return pawnCalculator.getPossibleMovesFromSquare(position, square, activeColor); break;
+                    case 'n': return knightCalculator.getPossibleMovesFromSquare(position, square, activeColor); break;
+                    case 'b': return bishopCalculator.getPossibleMovesFromSquare(position, square, activeColor); break;
+                    case 'r': return rookCalculator.getPossibleMovesFromSquare(position, square, activeColor); break;
+                    case 'q': return queenCalculator.getPossibleMovesFromSquare(position, square, activeColor); break;
+                    case 'k': return kingCalculator.getPossibleMovesFromSquare(position, square, activeColor, dangerSquares); break;
+                    default: return $q.when([]);
+                }
+            });
         };
 
         var removeCastlingAbility = function(position, charCode) {
@@ -88,7 +94,12 @@
         };
 
         var movePiece = function(position, fromSquare, toSquare) {
-            // TODO: add a function that detects if the king is in check.
+            positionHelper.movePieceInString(position, fromSquare, toSquare);
+            detectCastling(position, fromSquare, toSquare);
+            detectEnPassant(position, fromSquare, toSquare);
+        };
+
+        var makeMove = function(position, fromSquare, toSquare) {
             return getPossibleMovesForSquare(position, fromSquare).then(function(moves) {
                 // TODO: for each of these moves, see if it leaves the king in check
                 if (moves.indexOf(toSquare) == -1) {
@@ -96,11 +107,8 @@
                     return $q.reject();
                 }
 
-                positionHelper.movePieceInString(position, fromSquare, toSquare);
-
-                detectCastling(position, fromSquare, toSquare);
+                movePiece(position, fromSquare, toSquare);
                 updateCastlingFlags(position, fromSquare);
-                detectEnPassant(position, fromSquare, toSquare);
                 updateEnPassantFlag(position, fromSquare, toSquare);
 
                 // TODO: reset the halfmove clock on piece capture or pawn move
@@ -111,12 +119,12 @@
                 }
 
                 return $q.when(position);
-            })
+            });
         };
 
         return {
             getPossibleMovesForSquare: getPossibleMovesForSquare,
-            movePiece: movePiece
+            makeMove: makeMove
         };
 
     }]);

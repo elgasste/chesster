@@ -50,7 +50,7 @@
                     delete pendingMoves[sessionId];
                     session.deactivateSquares();
                 } else if (pendingMoves[sessionId].possibleMoves.indexOf(index) != -1) {
-                    session.movePiece(pendingMoves[sessionId].fromSquare, index);
+                    session.makeMove(pendingMoves[sessionId].fromSquare, index);
                     delete pendingMoves[sessionId];
                 } else {
                     delete pendingMoves[sessionId];

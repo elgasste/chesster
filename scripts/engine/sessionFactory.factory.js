@@ -46,13 +46,13 @@
                 sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_SQUARES_DEACTIVATED);
             };
 
-            var movePiece = function(fromSquare, toSquare) {
+            var makeMove = function(fromSquare, toSquare) {
                 // TODO: keep track of moves in a list
                 deactivateSquares();
                 // TODO: this doesn't work for en passant
                 var capturedPiece = currentPosition.pieces[toSquare];
                 var positionCopy = positionHelper.copyPosition(currentPosition);
-                ruleset.movePiece(positionCopy, fromSquare, toSquare).then(function(newPosition) {
+                ruleset.makeMove(positionCopy, fromSquare, toSquare).then(function(newPosition) {
                     // TODO: either in here or in the ruleset, 50 halfmoves is a draw
                     currentPosition = newPosition;
                     sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_POSITION_CHANGED, currentPosition);
@@ -68,7 +68,7 @@
                 loadFromFen: loadFromFen,
                 activateSquare: activateSquare,
                 deactivateSquares: deactivateSquares,
-                movePiece: movePiece
+                makeMove: makeMove
             };
         }
 
