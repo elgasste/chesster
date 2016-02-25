@@ -19,7 +19,9 @@ angular.module('chesster.view').directive('sessionInfo', ['sessionMessenger', 'c
                 var move = moveList[i];
                 if (move.position.active == 'b') {
                     scope.moveList.push({
-                        number: move.position.fullmove
+                        number: move.position.fullmove,
+                        white: move.moved + ' from ' + move.from + ' to ' + move.to,
+                        black: ''
                     });
                 }
             }

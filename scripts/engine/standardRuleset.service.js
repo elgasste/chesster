@@ -171,7 +171,7 @@
             }
 
             moveCache = [];
-            return $q.when({position: position, moved: movedPiece, captured: capturedPiece});
+            return $q.when({position: position, from: fromSquare, to: toSquare, moved: movedPiece, captured: capturedPiece});
         };
 
         return {

@@ -7,7 +7,9 @@
         </div>
         <div class="move-list">
             <div class="move-list-line" ng-repeat="move in moveList">
-                <div class="move-list-line-number">{{move.number}}</div>
+                <div class="move-list-line-number">{{move.number}}.</div>
+                <div class="move-list-white-move">{{move.white}}</div>
+                <div class="move-list-black-move">{{move.black}}</div>
             </div>
         </div>
     </div>

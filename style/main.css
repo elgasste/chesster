@@ -50,3 +50,16 @@
 .session-info-fen-input {
     width: 500px;
 }
+
+.move-list-line {
+    display: flex;
+    flex-direction: row;
+}
+
+.move-list-white-move {
+    margin-left: 10px;
+}
+
+.move-list-black-move {
+    margin-left: 20px;
+}
