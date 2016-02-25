@@ -11,6 +11,10 @@ angular.module('chesster.view').directive('sessionInfo', ['sessionMessenger', 'c
             });
         };
 
+        var updateMoveList = function(moveList) {
+            // TODO
+        };
+
         var sessionUpdateHandler = function(sessionId, messageId, data) {
             if (scope.session.getSessionId() != sessionId) {
                 return;
@@ -19,6 +23,9 @@ angular.module('chesster.view').directive('sessionInfo', ['sessionMessenger', 'c
             switch (messageId) {
                 case codes.SESSION_POSITION_CHANGED:
                     updatePositionInfo(data);
+                    break;
+                case codes.SESSION_MOVE_LIST_CHANGED:
+                    updateMoveList(data);
                     break;
             }
         };

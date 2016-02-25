@@ -51,7 +51,6 @@
                 var positionCopy = positionHelper.copyPosition(currentPosition);
                 ruleset.makeMove(positionCopy, fromSquare, toSquare).then(function(moveInfo) {
                     currentPosition = moveInfo.newPosition;
-                    // TODO: broadcast the updated move list
                     moveList.push({
                         from: fromSquare,
                         to: toSquare,
@@ -59,6 +58,7 @@
                         captured: moveInfo.captured
                     });
                     sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_POSITION_CHANGED, currentPosition);
+                    sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_MOVE_LIST_CHANGED, moveList);
                 });
             };
 
