@@ -22,7 +22,6 @@
             var toRank = 8 - toNumericRank;
             var toFile = String.fromCharCode(toSquare - (toNumericRank * 8) + 97);
 
-            // pawn moves
             if (movedPiece == 'p' || movedPiece == 'P') {
                 if (isCapture) {
                     var fromFile = String.fromCharCode(fromSquare - (parseInt(fromSquare / 8) * 8) + 97);
@@ -30,9 +29,15 @@
                 }
                 // TODO: pawn promotion
                 algebraicString += toFile + toRank;
+            } else {
+                // TODO: check for castling
+                algebraicString += movedPiece.toUpperCase();
+                // TODO: check if there's another matching piece that could be moved to this square
+                if (isCapture) {
+                    algebraicString += 'x';
+                }
+                algebraicString += toFile + toRank;
             }
-
-            // TODO: non-pawn moves
 
             return algebraicString;
         };
