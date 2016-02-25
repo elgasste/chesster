@@ -56,10 +56,14 @@
     flex-direction: row;
 }
 
+.move-list-line-number {
+    width: 20px;
+}
+
 .move-list-white-move {
-    margin-left: 10px;
+    width: 50px;
 }
 
 .move-list-black-move {
-    margin-left: 20px;
+    width: 50px;
 }
