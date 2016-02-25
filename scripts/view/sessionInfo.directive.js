@@ -15,7 +15,7 @@ angular.module('chesster.view').directive('sessionInfo', ['sessionMessenger', 'c
 
         var updateMoveList = function(moveList) {
             scope.moveList = [];
-            for (var i = 0; i < moveList.length; i++) {
+            for (var i = 0, j = 0; i < moveList.length; i++) {
                 var move = moveList[i];
                 if (move.position.active == 'b') {
                     scope.moveList.push({
@@ -23,6 +23,15 @@ angular.module('chesster.view').directive('sessionInfo', ['sessionMessenger', 'c
                         white: move.moved + ' from ' + move.from + ' to ' + move.to,
                         black: ''
                     });
+                } else {
+                    if (i == 0) {
+                        scope.moveList.push({
+                            number: move.position.fullmove - 1,
+                            white: '...'
+                        })
+                    }
+                    scope.moveList[j].black = move.moved + ' from ' + move.from + ' to ' + move.to;
+                    j++;
                 }
             }
         };
