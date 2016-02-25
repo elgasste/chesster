@@ -33,6 +33,17 @@
             return dangerSquares;
         };
 
+        var isKingInCheck = function(position, color) {
+            var dangerSquares = getDangerSquares(position, (color == 'w') ? 'b' : 'w');
+            var king = (color == 'w') ? 'K' : 'k';
+            for (var i = 0; i < position.pieces.length; i++) {
+                if (position.pieces[i] == king) {
+                    return (dangerSquares.indexOf(i) != -1);
+                }
+            }
+            return false;
+        };
+
         var getPossibleMovesForSquare = function(position, square) {
             // TODO: this doesn't take checks into consideration at all
             var activeColor = position.active;
