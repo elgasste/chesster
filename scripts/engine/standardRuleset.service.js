@@ -24,7 +24,7 @@
                 if (piece != '-' && ((color == 'w' && piece.toUpperCase() == piece) || (color == 'b' && piece.toLowerCase() == piece))) {
                     var moves = getCalculatedMoves(position, i, piece, color, []);
                     for (var j = 0; j < moves.length; j++) {
-                        if (dangerSquares.indexOf(j) == -1) {
+                        if (dangerSquares.indexOf(moves[j]) == -1) {
                             dangerSquares.push(moves[j]);
                         }
                     }
