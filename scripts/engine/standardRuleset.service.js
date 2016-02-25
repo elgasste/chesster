@@ -146,13 +146,19 @@
                 return $q.reject();
             }
 
+            var isCapture = position.pieces[toSquare] != '-';
+            var isPawnMove = position.pieces[fromSquare] == 'p' || position.pieces[fromSquare] == 'P';
+            if (isCapture || isPawnMove) {
+                position.halfmove = 0;
+            } else {
+                position.halfmove++;
+            }
+
             movePiece(position, fromSquare, toSquare);
             updateCastlingFlags(position, fromSquare);
             updateEnPassantFlag(position, fromSquare, toSquare);
 
-            // TODO: reset the halfmove clock on piece capture or pawn move
             position.active = (position.active == 'w') ? 'b' : 'w';
-            position.halfmove++;
             if (position.active == 'w') {
                 position.fullmove++;
             }
