@@ -15,9 +15,15 @@
             return file + (8 - numericRank);
         };
 
+        var getAlgebraicMove = function(fromSquare, toSquare, isCapture) {
+            // TODO
+            return 'e4';
+        };
+
         return {
             getIndexFromAlgebraic: getIndexFromAlgebraic,
-            getAlgebraicFromIndex: getAlgebraicFromIndex
+            getAlgebraicFromIndex: getAlgebraicFromIndex,
+            getAlgebraicMove: getAlgebraicMove
         };
 
     }]);

@@ -171,7 +171,14 @@
             }
 
             moveCache = [];
-            return $q.when({position: position, from: fromSquare, to: toSquare, moved: movedPiece, captured: capturedPiece});
+            return $q.when({
+                position: position,
+                from: fromSquare,
+                to: toSquare,
+                moved: movedPiece,
+                captured: capturedPiece,
+                algebraic: algebraicHelper.getAlgebraicMove(fromSquare, toSquare, capturedPiece != '-')
+            });
         };
 
         return {

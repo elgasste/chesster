@@ -20,7 +20,7 @@ angular.module('chesster.view').directive('sessionInfo', ['sessionMessenger', 'c
                 if (move.position.active == 'b') {
                     scope.moveList.push({
                         number: move.position.fullmove,
-                        white: move.moved + ' from ' + move.from + ' to ' + move.to,
+                        white: move.algebraic,
                         black: ''
                     });
                 } else {
@@ -30,7 +30,7 @@ angular.module('chesster.view').directive('sessionInfo', ['sessionMessenger', 'c
                             white: '...'
                         })
                     }
-                    scope.moveList[j].black = move.moved + ' from ' + move.from + ' to ' + move.to;
+                    scope.moveList[j].black = move.algebraic;
                     j++;
                 }
             }
