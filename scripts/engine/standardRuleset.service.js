@@ -154,6 +154,7 @@
                 position.halfmove++;
             }
 
+            // TODO: this doesn't account for pawn promotion
             movePiece(position, fromSquare, toSquare);
             updateCastlingFlags(position, fromSquare);
             updateEnPassantFlag(position, fromSquare, toSquare);
