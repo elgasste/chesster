@@ -12,7 +12,7 @@ angular.module('chesster.view').directive('sessionInfo', ['sessionMessenger', 'c
         };
 
         var updateMoveList = function(moveList) {
-            // TODO
+            scope.moveList = moveList;
         };
 
         var sessionUpdateHandler = function(sessionId, messageId, data) {

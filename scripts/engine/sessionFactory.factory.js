@@ -50,11 +50,12 @@
                 deactivateSquares();
                 var positionCopy = positionHelper.copyPosition(currentPosition);
                 ruleset.makeMove(positionCopy, fromSquare, toSquare).then(function(moveInfo) {
-                    currentPosition = moveInfo.newPosition;
+                    currentPosition = moveInfo.position;
                     moveList.push({
                         from: fromSquare,
                         to: toSquare,
-                        position: moveInfo.newPosition,
+                        position: moveInfo.position,
+                        moved: moveInfo.moved,
                         captured: moveInfo.captured
                     });
                     sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_POSITION_CHANGED, currentPosition);

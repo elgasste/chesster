@@ -150,6 +150,7 @@
                 return $q.reject();
             }
 
+            var movedPiece = position.pieces[fromSquare];
             capturedPiece = position.pieces[toSquare];
 
             // TODO: this doesn't account for pawn promotion
@@ -170,7 +171,7 @@
             }
 
             moveCache = [];
-            return $q.when({newPosition: position, captured: capturedPiece});
+            return $q.when({position: position, moved: movedPiece, captured: capturedPiece});
         };
 
         return {
