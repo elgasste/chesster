@@ -45,14 +45,23 @@
         };
 
         var getPossibleMovesForSquare = function(position, square) {
-            // TODO: this doesn't take checks into consideration at all
             var activeColor = position.active;
             var pieceToMove = position.pieces[square];
             if (pieceToMove == '-' || (activeColor == 'w' && pieceToMove.toUpperCase() != pieceToMove) || (activeColor == 'b' && pieceToMove.toLowerCase() != pieceToMove)) {
                 return [];
             }
             var dangerSquares = getDangerSquares(position, (activeColor == 'w') ? 'b' : 'w');
-            moveCache = getCalculatedMoves(position, square, pieceToMove, activeColor, dangerSquares);
+            var moves = getCalculatedMoves(position, square, pieceToMove, activeColor, dangerSquares);
+
+            moveCache = [];
+            for (var i = 0; i < moves.length; i++) {
+                var positionCopy = positionHelper.copyPosition(position);
+                movePiece(positionCopy, square, moves[i]);
+                if (!isKingInCheck(positionCopy, activeColor)) {
+                    moveCache.push(moves[i]);
+                }
+            }
+
             return moveCache;
         };
 
@@ -131,7 +140,6 @@
             if (moveCache.length == 0) {
                 getPossibleMovesForSquare(position, fromSquare);
             }
-            // TODO: for each of these moves, see if it leaves the king in check
             if (moveCache.indexOf(toSquare) == -1) {
                 console.error('standardRuleset: ' + constants.rulesetErrors.STANDARD_INVALID_MOVE);
                 return $q.reject();
