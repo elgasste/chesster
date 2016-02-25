@@ -15,7 +15,19 @@
             return file + (8 - numericRank);
         };
 
-        var getAlgebraicMove = function(fromSquare, toSquare, movedPiece, isCapture) {
+        var hasMultipleMatches = function(position, piece, square) {
+            // TODO
+            switch (piece.toLowerCase()) {
+                case 'n':
+                case 'b':
+                case 'r':
+                case 'q':
+                default:
+                    return false;
+            }
+        };
+
+        var getAlgebraicMove = function(position, fromSquare, toSquare, movedPiece, isCapture) {
             // TODO: this doesn't account for check or checkmate
             var algebraicString = '';
             var toNumericRank = parseInt(toSquare / 8);
@@ -35,7 +47,9 @@
                 algebraicString = '0-0';
             } else {
                 algebraicString += movedPiece.toUpperCase();
-                // TODO: check if there's another matching piece that could be moved to this square
+                if (hasMultipleMatches(position, movedPiece, toSquare)) {
+                    // TODO: if it's on a different file, use file. otherwise use rank
+                }
                 if (isCapture) {
                     algebraicString += 'x';
                 }
