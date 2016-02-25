@@ -1,7 +1,7 @@
 'use strict';
 (function(angular) {
 
-    angular.module('chesster.engine').factory('knightCalculator', ['$q', 'indexHelper', function ($q, indexHelper) {
+    angular.module('chesster.engine').factory('knightCalculator', ['indexHelper', function (indexHelper) {
 
         var position = {};
         var possibleMoves = [];
@@ -34,7 +34,7 @@
                 if (fromFile < 7) addMoveIfPossible(fromSquare + 10, color);
             }
 
-            return $q.when(possibleMoves);
+            return possibleMoves;
         };
 
         var getPossibleMovesFromSquare = function(pos, fromSquare) {

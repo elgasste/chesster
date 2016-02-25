@@ -1,14 +1,12 @@
 'use strict';
 (function(angular) {
 
-    angular.module('chesster.engine').factory('queenCalculator', ['$q', 'bishopCalculator', 'rookCalculator', function ($q, bishopCalculator, rookCalculator) {
+    angular.module('chesster.engine').factory('queenCalculator', ['bishopCalculator', 'rookCalculator', function (bishopCalculator, rookCalculator) {
 
         var getPossibleMovesFromSquare = function(position, fromSquare, color) {
-            return bishopCalculator.getPossibleMovesFromSquare(position, fromSquare, color).then(function(bishopMoves) {
-                return rookCalculator.getPossibleMovesFromSquare(position, fromSquare, color).then(function(rookMoves) {
-                    return $q.when(bishopMoves.concat(rookMoves));
-                })
-            });
+            var bishopMoves = bishopCalculator.getPossibleMovesFromSquare(position, fromSquare, color);
+            var rookMoves = rookCalculator.getPossibleMovesFromSquare(position, fromSquare, color);
+            return bishopMoves.concat(rookMoves);
         };
 
         return {

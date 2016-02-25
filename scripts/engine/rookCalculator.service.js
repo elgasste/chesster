@@ -1,7 +1,7 @@
 'use strict';
 (function(angular) {
 
-    angular.module('chesster.engine').factory('rookCalculator', ['$q', 'indexHelper', function ($q, indexHelper) {
+    angular.module('chesster.engine').factory('rookCalculator', ['indexHelper', function (indexHelper) {
 
         var position = {};
         var possibleMoves = [];
@@ -46,7 +46,7 @@
                 }
             }
 
-            return $q.when(possibleMoves);
+            return possibleMoves;
         };
 
         var getPossibleMovesFromSquare = function(pos, fromSquare, color) {

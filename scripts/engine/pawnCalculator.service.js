@@ -1,13 +1,13 @@
 'use strict';
 (function(angular) {
 
-    angular.module('chesster.engine').factory('pawnCalculator', ['$q', 'algebraicHelper', function ($q, algebraicHelper) {
+    angular.module('chesster.engine').factory('pawnCalculator', ['algebraicHelper', function (algebraicHelper) {
 
         var position = {};
 
         var getBlackMoves = function(fromSquare) {
             if (fromSquare > 55) {
-                return $q.when([]);
+                return [];
             }
             var possibleMoves = [];
 
@@ -45,12 +45,12 @@
                 }
             }
 
-            return $q.when(possibleMoves);
+            return possibleMoves;
         };
 
         var getWhiteMoves = function(fromSquare) {
             if (fromSquare < 8) {
-                return $q.when([]);
+                return [];
             }
             var possibleMoves = [];
 
@@ -88,7 +88,7 @@
                 }
             }
 
-            return $q.when(possibleMoves);
+            return possibleMoves;
         };
 
         var getPossibleMovesFromSquare = function(pos, fromSquare, color) {

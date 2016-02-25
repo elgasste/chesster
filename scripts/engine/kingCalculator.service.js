@@ -1,7 +1,7 @@
 'use strict';
 (function(angular) {
 
-    angular.module('chesster.engine').factory('kingCalculator', ['$q', 'indexHelper', function ($q, indexHelper) {
+    angular.module('chesster.engine').factory('kingCalculator', ['indexHelper', function (indexHelper) {
 
         var position = {};
         var possibleMoves = [];
@@ -86,7 +86,7 @@
                 tryQueensideCastling(fromSquare, color);
             }
 
-            return $q.when(possibleMoves);
+            return possibleMoves;
         };
 
         var getPossibleMovesFromSquare = function(pos, fromSquare, color, attackedSquares) {
