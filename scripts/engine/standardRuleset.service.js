@@ -137,6 +137,7 @@
         };
 
         var makeMove = function(position, fromSquare, toSquare) {
+            // TODO: if the king is in check, somehow he's allowed to move into check.
             if (moveCache.length == 0) {
                 getPossibleMovesForSquare(position, fromSquare);
             }

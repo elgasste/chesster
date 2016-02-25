@@ -8,6 +8,9 @@
         var dangerZones = [];
 
         var addMoveIfPossible = function(targetSquare, color) {
+            if (dangerZones.indexOf(targetSquare) != -1) {
+                return;
+            }
             var obstruction = position.pieces[targetSquare];
             if (obstruction == '-' || (color == 'b' && obstruction.toUpperCase() == obstruction) || (color == 'w' && obstruction.toLowerCase() == obstruction)) {
                 possibleMoves.push(targetSquare);
