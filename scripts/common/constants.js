@@ -28,7 +28,6 @@
             SESSION_POSITION_CHANGED: 100,
             SESSION_SQUARE_ACTIVATED: 101,
             SESSION_SQUARES_DEACTIVATED: 102,
-            SESSION_PIECE_CAPTURED: 103
         }
     };
 

@@ -14,6 +14,7 @@
         function Session (id) {
             var sessionId = id;
             var currentPosition = {};
+            var moveList = [];
             var ruleset = standardRuleset;
 
             var getSessionId = function() {
@@ -46,18 +47,18 @@
             };
 
             var makeMove = function(fromSquare, toSquare) {
-                // TODO: keep track of moves in a list, along with a position for each move, so it can be traversed
                 deactivateSquares();
-                // TODO: this doesn't work for en passant
-                var capturedPiece = currentPosition.pieces[toSquare];
                 var positionCopy = positionHelper.copyPosition(currentPosition);
-                ruleset.makeMove(positionCopy, fromSquare, toSquare).then(function(newPosition) {
-                    // TODO: either in here or in the ruleset, 50 halfmoves is a draw
-                    currentPosition = newPosition;
+                ruleset.makeMove(positionCopy, fromSquare, toSquare).then(function(moveInfo) {
+                    currentPosition = moveInfo.newPosition;
+                    // TODO: broadcast the updated move list
+                    moveList.push({
+                        from: fromSquare,
+                        to: toSquare,
+                        position: moveInfo.newPosition,
+                        captured: moveInfo.captured
+                    });
                     sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_POSITION_CHANGED, currentPosition);
-                    if (capturedPiece != '-') {
-                        sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_PIECE_CAPTURED, capturedPiece);
-                    }
                 });
             };
 

@@ -114,10 +114,12 @@
             }
             var passantIndex = algebraicHelper.getIndexFromAlgebraic(position.passant);
             if (toSquare == passantIndex) {
-                capturedPiece = position.pieces[toSquare];
-                if (capturedPiece == 'p') {
+                console.log('en passant!');
+                if (position.pieces[toSquare] == 'p') {
+                    capturedPiece = 'P';
                     positionHelper.removePieceInString(position, toSquare - 8);
                 } else {
+                    capturedPiece = 'p';
                     positionHelper.removePieceInString(position, toSquare + 8);
                 }
             }
@@ -148,7 +150,7 @@
                 return $q.reject();
             }
 
-            var capturedPiece = position.pieces[toSquare];
+            capturedPiece = position.pieces[toSquare];
 
             // TODO: this doesn't account for pawn promotion
             movePiece(position, fromSquare, toSquare);
@@ -168,7 +170,7 @@
             }
 
             moveCache = [];
-            return $q.when({captured: capturedPiece});
+            return $q.when({newPosition: position, captured: capturedPiece});
         };
 
         return {
