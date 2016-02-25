@@ -3,6 +3,8 @@
 
     angular.module('chesster.engine').factory('standardRuleset', ['$q', 'constants', 'positionHelper', 'algebraicHelper', 'pawnCalculator', 'knightCalculator', 'bishopCalculator', 'rookCalculator', 'queenCalculator', 'kingCalculator', function ($q, constants, positionHelper, algebraicHelper, pawnCalculator, knightCalculator, bishopCalculator, rookCalculator, queenCalculator, kingCalculator) {
 
+        var moveCache = [];
+
         var getCalculatedMoves = function(position, square, piece, activeColor, dangerSquares) {
             switch(piece.toLowerCase()) {
                 case 'p': return pawnCalculator.getPossibleMovesFromSquare(position, square, activeColor); break;
@@ -19,8 +21,13 @@
             var dangerSquares = [];
             for (var i = 0; i < position.pieces.length; i++) {
                 var piece = position.pieces[i];
-                if (piece != '-' && ((color == 'w' && piece.toUpperCase() == piece)) || (color == 'b' && piece.toLowerCase() == piece)) {
-
+                if (piece != '-' && ((color == 'w' && piece.toUpperCase() == piece) || (color == 'b' && piece.toLowerCase() == piece))) {
+                    var moves = getCalculatedMoves(position, i, piece, color, []);
+                    for (var j = 0; j < moves.length; j++) {
+                        if (dangerSquares.indexOf(j) == -1) {
+                            dangerSquares.push(moves[j]);
+                        }
+                    }
                 }
             }
             return dangerSquares;
@@ -34,7 +41,8 @@
                 return [];
             }
             var dangerSquares = getDangerSquares(position, (activeColor == 'w') ? 'b' : 'w');
-            return getCalculatedMoves(position, square, pieceToMove, activeColor, dangerSquares);
+            moveCache = getCalculatedMoves(position, square, pieceToMove, activeColor, dangerSquares);
+            return moveCache;
         };
 
         var removeCastlingAbility = function(position, charCode) {
@@ -109,9 +117,11 @@
         };
 
         var makeMove = function(position, fromSquare, toSquare) {
-            var moves = getPossibleMovesForSquare(position, fromSquare);
+            if (moveCache.length == 0) {
+                getPossibleMovesForSquare(position, fromSquare);
+            }
             // TODO: for each of these moves, see if it leaves the king in check
-            if (moves.indexOf(toSquare) == -1) {
+            if (moveCache.indexOf(toSquare) == -1) {
                 console.error('standardRuleset: ' + constants.rulesetErrors.STANDARD_INVALID_MOVE);
                 return $q.reject();
             }
@@ -127,6 +137,7 @@
                 position.fullmove++;
             }
 
+            moveCache = [];
             return $q.when(position);
         };
 
