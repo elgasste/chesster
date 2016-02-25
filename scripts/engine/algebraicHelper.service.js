@@ -29,8 +29,11 @@
                 }
                 // TODO: pawn promotion
                 algebraicString += toFile + toRank;
+            } else if ((movedPiece == 'k' || movedPiece == 'K') && toSquare == (fromSquare - 2)) {
+                algebraicString = '0-0-0';
+            } else if ((movedPiece == 'k' || movedPiece == 'K') && toSquare == (fromSquare + 2)) {
+                algebraicString = '0-0';
             } else {
-                // TODO: check for castling
                 algebraicString += movedPiece.toUpperCase();
                 // TODO: check if there's another matching piece that could be moved to this square
                 if (isCapture) {
