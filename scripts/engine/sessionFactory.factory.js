@@ -35,11 +35,10 @@
             var activateSquare = function(square) {
                 deactivateSquares();
                 var positionCopy = positionHelper.copyPosition(currentPosition);
-                ruleset.getPossibleMovesForSquare(positionCopy, square).then(function(moves) {
-                    if (moves.length > 0) {
-                        sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_SQUARE_ACTIVATED, {square: square, possibleMoves: moves});
-                    }
-                });
+                var possibleMoves = ruleset.getPossibleMovesForSquare(positionCopy, square);
+                if (possibleMoves.length > 0) {
+                    sessionMessenger.broadcast(sessionId, constants.messageCodes.SESSION_SQUARE_ACTIVATED, {square: square, possibleMoves: possibleMoves});
+                }
             };
 
             var deactivateSquares = function () {
