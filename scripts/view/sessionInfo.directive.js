@@ -4,6 +4,8 @@ angular.module('chesster.view').directive('sessionInfo', ['sessionMessenger', 'c
 
     function link(scope) {
 
+        scope.moveList = [];
+
         var updatePositionInfo = function(position) {
             scope.activeColor = (position.active == 'w') ? 'White' : 'Black';
             fenHelper.getFenStringFromPosition(position).then(function(fen) {
@@ -12,7 +14,15 @@ angular.module('chesster.view').directive('sessionInfo', ['sessionMessenger', 'c
         };
 
         var updateMoveList = function(moveList) {
-            scope.moveList = moveList;
+            scope.moveList = [];
+            for (var i = 0; i < moveList.length; i++) {
+                var move = moveList[i];
+                if (move.position.active == 'b') {
+                    scope.moveList.push({
+                        number: move.position.fullmove
+                    });
+                }
+            }
         };
 
         var sessionUpdateHandler = function(sessionId, messageId, data) {

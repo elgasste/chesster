@@ -1,4 +1,14 @@
 <div class="session-info-container">
     <div>{{activeColor}} to move</div>
     <div>FEN: <input class="session-info-fen-input" value="{{fenString}}"></div>
+    <div class="move-list-container">
+        <div class="move-list-header">
+            <span>Move List</span>
+        </div>
+        <div class="move-list">
+            <div class="move-list-line" ng-repeat="move in moveList">
+                <div class="move-list-line-number">{{move.number}}</div>
+            </div>
+        </div>
+    </div>
 </div>
